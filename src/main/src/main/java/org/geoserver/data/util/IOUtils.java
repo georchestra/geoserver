@@ -450,12 +450,13 @@ public class IOUtils {
      * @param dest The file to rename to. 
      */
     public static void rename( File source, File dest ) throws IOException {
-        // same path? Do nothing
-        if (source.getCanonicalPath().equalsIgnoreCase(dest.getCanonicalPath()))
-            return;
+        boolean win = System.getProperty("os.name").startsWith("Windows");
+        boolean samePath = win ?
+                source.getCanonicalPath().equalsIgnoreCase(dest.getCanonicalPath()) :
+                source.getCanonicalPath().equals(dest.getCanonicalPath());
+        if (samePath) return;
 
         // windows needs special treatment, we cannot rename onto an existing file
-        boolean win = System.getProperty("os.name").startsWith("Windows");
         if ( win && dest.exists() ) {
             // windows does not do atomic renames, and can not rename a file if the dest file
             // exists
