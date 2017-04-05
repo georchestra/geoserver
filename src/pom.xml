@@ -616,6 +616,26 @@
     <groupId>junit</groupId>
     <artifactId>junit</artifactId>
     <version>4.11</version>
+    <scope>test</scope>
+   </dependency>
+   <dependency>
+    <groupId>org.powermock</groupId>
+    <artifactId>powermock-module-junit4</artifactId>
+    <version>${powermock.version}</version>
+    <scope>test</scope>
+   </dependency>
+   <dependency>
+    <groupId>org.powermock</groupId>
+    <artifactId>powermock-api-mockito</artifactId>
+    <version>${powermock.version}</version>
+    <scope>test</scope>
+   </dependency>
+   <!-- forcing javassist to 3.20.0-GA helps powermock mocking System.getProperty -->
+   <dependency>
+    <groupId>org.javassist</groupId>
+    <artifactId>javassist</artifactId>
+    <version>3.20.0-GA</version>
+    <scope>test</scope>
    </dependency>
    <dependency>
     <groupId>org.hamcrest</groupId>
@@ -1646,7 +1666,7 @@
   <gt.version>14.3</gt.version>
   <gwc.version>1.8.2</gwc.version>
   <spring.version>3.1.4.RELEASE</spring.version>
-  <spring.security.version>3.1.0.RELEASE</spring.security.version> 
+  <spring.security.version>3.1.0.RELEASE</spring.security.version>
   <poi.version>3.8</poi.version>
   <wicket.version>1.4.12</wicket.version>
   <ant.version>1.8.4</ant.version>
@@ -1674,6 +1694,7 @@
   <hibernate-generic-dao-version>1.1.0</hibernate-generic-dao-version>
   <hibernate-spatial-version>1.1.1</hibernate-spatial-version>
   <hibernate-spatial-h2-version>1.1.1</hibernate-spatial-h2-version>
+  <powermock.version>1.4.9</powermock.version>
  </properties>
 
  <profiles>
