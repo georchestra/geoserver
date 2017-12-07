@@ -25,33 +25,9 @@
       </wicket:link>
 	</wicket:head>
 <body>
-  <div id="header">
-    <div class="wrap">
-      <h2><a wicket:id="home" class="pngfix" href="#"><span wicket:id="label">GeoServer 2.0</span></a></h2>
-      <div class="button-group selfclear">
-	      <span wicket:id="loginforms">
-	      	<form style="display: inline-block;" wicket:id="loginform" method="post" action="../j_spring_security_check">
-	      		<span wicket:id="login.include"></span>
-	      		<button class="positive icon" type="submit">
-	      			<div><img src="#" wicket:id="link.icon"/><span wicket:id="link.label"></span></div>
-	      		</button>
-		        <script type="text/javascript">
-		            $('input, textarea').placeholder();
-		        </script>	      		
-	      	</form>
-	      </span>
-	      
-	      <span wicket:id="loggedinasform" class="username"><wicket:message key="loggedInAs">Logged in as</wicket:message> <span wicket:id="loggedInUsername">User von Testenheimer</span>.</span>
-	      <span wicket:id="logoutforms">
-	      	<form style="display: inline-block;" wicket:id="logoutform" method="post" action="j_spring_security_logout">
-	      		<button class="positive icon" type="submit">
-	      			<div><img src="#" wicket:id="link.icon"/><span wicket:id="link.label"></span></div>
-	      		</button>
-	      	</form>		      
-	      </span>
-      </div>
-    </div><!-- /.wrap -->
-  </div><!-- /#header -->
+  <div id="go_head">
+    <iframe src="/header/?active=geoserver" style="width:100%;height:90px;border:none;overflow:hidden;" scrolling="no" frameborder="0"></iframe>
+  </div>
   <div id="main">
     <div class="wrap selfclear">
     <div id="sidebar">
