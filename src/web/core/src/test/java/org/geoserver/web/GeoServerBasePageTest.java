@@ -10,10 +10,12 @@ import static org.junit.Assert.*;
 import org.apache.wicket.core.util.string.ComponentRenderer;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.util.tester.TagTester;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class GeoServerBasePageTest extends GeoServerWicketTestSupport {
     @Test
+    @Ignore("No login form in geOrchestra")
     public void testLoginFormShowsWhenLoggedOut() throws Exception {
         logout();
         tester.startPage(GeoServerHomePage.class);
@@ -30,6 +32,7 @@ public class GeoServerBasePageTest extends GeoServerWicketTestSupport {
     }
 
     @Test
+    @Ignore("No logout form in geOrchestra")
     public void testLogoutFormShowsWhenLoggedIn() throws Exception {
         login();
         tester.startPage(GeoServerHomePage.class);
