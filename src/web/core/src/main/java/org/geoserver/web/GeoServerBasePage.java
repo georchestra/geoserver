@@ -34,6 +34,7 @@ import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.request.cycle.RequestCycle;
 import org.apache.wicket.request.resource.PackageResourceReference;
+import org.georchestra.GeorchestraHeaderIframe;
 import org.geoserver.catalog.Catalog;
 import org.geoserver.config.GeoServer;
 import org.geoserver.platform.GeoServerExtensions;
@@ -75,6 +76,8 @@ public class GeoServerBasePage extends WebPage implements IAjaxIndicatorAware {
 
     @SuppressWarnings("serial")
     public GeoServerBasePage() {
+
+        add(new GeorchestraHeaderIframe("georchestraIframe"));
         // lookup for a pluggable favicon
         PackageResourceReference faviconReference = null;
         List<HeaderContribution> cssContribs =
