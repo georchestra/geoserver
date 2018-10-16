@@ -150,8 +150,9 @@ public class InternalUserResolver implements UserResolver {
             logger.log(Level.WARNING, e.getMessage(), e);
         }
 
-        logger.log(Level.WARNING,
-                "GeoFence was not able to find any matching user on Security Context amd Services.");
+        if(!"anonymous".equals(username))
+            logger.log(Level.WARNING,
+                    "GeoFence was not able to find any matching user on Security Context and Services.");
 
         return false;
     }
