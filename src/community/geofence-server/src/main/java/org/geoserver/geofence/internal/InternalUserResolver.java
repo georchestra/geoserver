@@ -95,6 +95,11 @@ public class InternalUserResolver implements UserResolver {
 
     @Override
     public boolean existsUser(String username) {
+        if("anonymous".equals(username)) {
+            logger.log(Level.FINE, "User is anonymous");
+            return false;
+        }
+        
         if (logger.isLoggable(Level.FINE)) {
             logger.log(Level.FINE, "Getting Roles for User [" + username + "]");
         }
