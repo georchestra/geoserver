@@ -1,25 +1,24 @@
 package org.georchestra;
 
-import org.apache.wicket.markup.ComponentTag;
-import org.apache.wicket.markup.html.link.InlineFrame;
-import org.apache.wicket.util.tester.DummyHomePage;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Properties;
+import org.apache.wicket.markup.ComponentTag;
+import org.apache.wicket.markup.html.link.InlineFrame;
+import org.apache.wicket.util.tester.DummyHomePage;
 
-
-public class GeorchestraHeaderIframe extends InlineFrame{
+public class GeorchestraHeaderIframe extends InlineFrame {
 
     private static String headerUrl;
     private static String headerHeight;
 
-    public GeorchestraHeaderIframe(String id){
+    public GeorchestraHeaderIframe(String id) {
         super(id, new DummyHomePage());
 
-        if(GeorchestraHeaderIframe.headerUrl == null || GeorchestraHeaderIframe.headerHeight == null) {
+        if (GeorchestraHeaderIframe.headerUrl == null
+                || GeorchestraHeaderIframe.headerHeight == null) {
 
             // Set default value
             GeorchestraHeaderIframe.headerUrl = "/header/";
@@ -29,10 +28,20 @@ public class GeorchestraHeaderIframe extends InlineFrame{
             String globalDatadirPath = System.getProperty("georchestra.datadir");
 
             if (globalDatadirPath != null) {
-                File defaultConfiguration = new File(String.format("%s%s%s", globalDatadirPath,
-                        File.separator, "default.properties"));
-                File geoserverConfiguration = new File(String.format("%s%s%s%s%s", globalDatadirPath,
-                        File.separator, "geoserver", File.separator, "geoserver.properties"));
+                File defaultConfiguration =
+                        new File(
+                                String.format(
+                                        "%s%s%s",
+                                        globalDatadirPath, File.separator, "default.properties"));
+                File geoserverConfiguration =
+                        new File(
+                                String.format(
+                                        "%s%s%s%s%s",
+                                        globalDatadirPath,
+                                        File.separator,
+                                        "geoserver",
+                                        File.separator,
+                                        "geoserver.properties"));
                 Properties properties = new Properties();
                 if (defaultConfiguration.canRead()) {
                     try {
@@ -63,8 +72,11 @@ public class GeorchestraHeaderIframe extends InlineFrame{
 
     @Override
     protected void onComponentTag(ComponentTag tag) {
-        // <iframe src="<%= headerUrl %>" style="width:100%;height:<%= headerHeight %>px;border:none;overflow:hidden;" scrolling="no" frameborder="0"></iframe>
-        tag.put("style", "width:100%;height:"+this.headerHeight+"px;border:none;overflow:hidden;");
+        // <iframe src="<%= headerUrl %>" style="width:100%;height:<%= headerHeight
+        // %>px;border:none;overflow:hidden;" scrolling="no" frameborder="0"></iframe>
+        tag.put(
+                "style",
+                "width:100%;height:" + this.headerHeight + "px;border:none;overflow:hidden;");
         super.onComponentTag(tag);
     }
 
@@ -81,5 +93,4 @@ public class GeorchestraHeaderIframe extends InlineFrame{
         }
         return prop;
     }
-
 }
