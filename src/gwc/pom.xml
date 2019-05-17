@@ -17,8 +17,8 @@
   <groupId>org.geoserver</groupId>
   <artifactId>gs-gwc</artifactId>
   <packaging>jar</packaging>
-  <version>2.15.0-georchestra</version>
   <name>GeoWebCache (GWC) Module</name>
+  <version>2.15.0-georchestra</version>
 
   <dependencies>
     <dependency>
@@ -148,20 +148,18 @@
     <dependency>
       <groupId>org.geoserver</groupId>
       <artifactId>gs-rest</artifactId>
-      <version>${project.version}</version>
+      <version>${project.parent.version}</version>
     </dependency>
     <dependency>
       <groupId>org.geowebcache</groupId>
       <artifactId>gwc-core</artifactId>
       <classifier>tests</classifier>
-      <version>${project.parent.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.geoserver</groupId>
       <artifactId>gs-platform</artifactId>
       <classifier>tests</classifier>
-      <version>${project.parent.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
