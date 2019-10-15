@@ -6,11 +6,11 @@
  -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  
+
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.geoserver</groupId>    
+    <groupId>org.geoserver</groupId>
     <artifactId>web</artifactId>
     <version>2.15.3</version>
   </parent>
@@ -18,9 +18,8 @@
   <groupId>org.geoserver.web</groupId>
   <artifactId>gs-web-core</artifactId>
   <packaging>jar</packaging>
-  <version>2.15.3</version>
-  <name>Core UI Module</name>
-  
+  <version>2.15.3-georchestra</version>
+  <name>Core UI Module (geOrchestra customized)</name>
   <dependencies>
     <dependency>
       <groupId>org.apache.wicket</groupId>
@@ -53,12 +52,12 @@
     <dependency>
       <groupId>org.geoserver</groupId>
       <artifactId>gs-main</artifactId>
-      <version>${project.version}</version>
+      <version>${project.parent.version}</version>
     </dependency>
     <dependency>
       <groupId>org.geoserver</groupId>
       <artifactId>gs-platform</artifactId>
-      <version>${project.version}</version>
+      <version>${project.parent.version}</version>
     </dependency>
     <dependency>
       <groupId>javax.servlet</groupId>
@@ -68,7 +67,7 @@
     <dependency>
       <groupId>org.geoserver</groupId>
       <artifactId>gs-main</artifactId>
-      <version>${project.version}</version>
+      <version>${project.parent.version}</version>
       <classifier>tests</classifier>
       <scope>test</scope>
     </dependency>
