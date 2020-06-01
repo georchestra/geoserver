@@ -29,7 +29,7 @@ public class CatalogReloadController extends AbstractGeoServerController {
         System.setProperty("geoserver.updatesequence.ignore", "true");
         try {
             geoServer.reload();
-        }finally {
+        } finally {
             System.setProperty("geoserver.updatesequence.ignore", "false");
         }
     }
