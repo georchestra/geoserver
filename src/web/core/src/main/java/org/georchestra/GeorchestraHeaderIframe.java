@@ -5,69 +5,33 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Properties;
-import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.html.link.InlineFrame;
 import org.apache.wicket.util.tester.DummyHomePage;
+import org.geoserver.web.GeoServerApplication;
 import org.geotools.util.logging.Logging;
 
 public class GeorchestraHeaderIframe extends InlineFrame {
 
-    private static String headerUrl;
-    private static String headerHeight;
+    private String headerUrl;
+    private String headerHeight;
 
     private static Logger LOGGER = Logging.getLogger(GeorchestraHeaderIframe.class);
 
+    @PostConstruct
+    public void init() {
+        headerHeight = getGeoServerApplication().getBean("georchestraHeaderHeight").toString();
+        headerUrl = getGeoServerApplication().getBean("georchestraHeaderUrl").toString();
+    }
+
+    protected GeoServerApplication getGeoServerApplication() {
+        return (GeoServerApplication) getApplication();
+    }
+
     public GeorchestraHeaderIframe(String id) {
         super(id, new DummyHomePage());
-
-        if (GeorchestraHeaderIframe.headerUrl == null
-                || GeorchestraHeaderIframe.headerHeight == null) {
-
-            // Set default value
-            GeorchestraHeaderIframe.headerUrl = "/header/";
-            GeorchestraHeaderIframe.headerHeight = "90";
-
-            // Try to load datadir
-            String globalDatadirPath = System.getProperty("georchestra.datadir");
-
-            if (globalDatadirPath != null) {
-                File defaultConfiguration =
-                        new File(
-                                String.format(
-                                        "%s%s%s",
-                                        globalDatadirPath, File.separator, "default.properties"));
-                File geoserverConfiguration =
-                        new File(
-                                String.format(
-                                        "%s%s%s%s%s",
-                                        globalDatadirPath,
-                                        File.separator,
-                                        "geoserver",
-                                        File.separator,
-                                        "geoserver.properties"));
-                Properties properties = new Properties();
-                if (defaultConfiguration.canRead()) {
-                    try {
-                        this.loadProperties(defaultConfiguration, properties);
-                    } catch (IOException e) {
-                        LOGGER.log(Level.SEVERE, e.getMessage());
-                    }
-                }
-                if (geoserverConfiguration.canRead()) {
-                    try {
-                        this.loadProperties(geoserverConfiguration, properties);
-                    } catch (IOException e) {
-                        LOGGER.log(Level.SEVERE, e.getMessage());
-                    }
-                }
-                if (properties.containsKey("headerUrl"))
-                    GeorchestraHeaderIframe.headerUrl = properties.getProperty("headerUrl");
-                if (properties.containsKey("headerHeight"))
-                    GeorchestraHeaderIframe.headerHeight = properties.getProperty("headerHeight");
-            }
-        }
     }
 
     @Override
