@@ -480,19 +480,19 @@
     <property name="ignoreResourceNotFound" value="true" />
     <property name="locations">
       <list>
-        <value>classpath*:application.properties</value>
         <value>file:${georchestra.datadir}/default.properties</value>
         <value>file:${georchestra.datadir}/geoserver/geoserver.properties</value>
       </list>
     </property>
+    <property name="placeholderPrefix" value="${georchestra." />
     <property name="order" value="2" />
   </bean>
 
   <bean id="georchestraHeaderHeight" class="java.lang.String" factory-method="valueOf">
-    <constructor-arg value="${headerHeight:90}" />
+    <constructor-arg value="${georchestra.headerHeight:90}" />
   </bean>
   <bean id="georchestraHeaderUrl" class="java.lang.String" factory-method="valueOf">
-    <constructor-arg value="${headerUrl:/header/}" />
+    <constructor-arg value="${georchestra.headerUrl:/header/}" />
   </bean>
 
 </beans>
