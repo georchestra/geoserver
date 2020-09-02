@@ -1,12 +1,6 @@
 package org.georchestra;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Properties;
 import java.util.logging.Logger;
-import javax.annotation.PostConstruct;
 import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.html.link.InlineFrame;
 import org.apache.wicket.util.tester.DummyHomePage;
@@ -20,8 +14,7 @@ public class GeorchestraHeaderIframe extends InlineFrame {
 
     private static Logger LOGGER = Logging.getLogger(GeorchestraHeaderIframe.class);
 
-    @PostConstruct
-    public void init() {
+    private void init() {
         headerHeight = getGeoServerApplication().getBean("georchestraHeaderHeight").toString();
         headerUrl = getGeoServerApplication().getBean("georchestraHeaderUrl").toString();
     }
@@ -32,6 +25,7 @@ public class GeorchestraHeaderIframe extends InlineFrame {
 
     public GeorchestraHeaderIframe(String id) {
         super(id, new DummyHomePage());
+        init();
     }
 
     @Override
@@ -45,19 +39,5 @@ public class GeorchestraHeaderIframe extends InlineFrame {
                 "style",
                 "width:100%;height:" + this.headerHeight + "px;border:none;overflow:hidden;");
         super.onComponentTag(tag);
-    }
-
-    private Properties loadProperties(File path, Properties prop) throws IOException {
-        FileInputStream fisProp = null;
-        try {
-            fisProp = new FileInputStream(path);
-            InputStreamReader isrProp = new InputStreamReader(fisProp, "UTF8");
-            prop.load(isrProp);
-        } finally {
-            if (fisProp != null) {
-                fisProp.close();
-            }
-        }
-        return prop;
     }
 }
