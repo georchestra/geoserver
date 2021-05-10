@@ -26,4 +26,6 @@ public class WebXmlTest {
                                 .toString());
         Assert.assertTrue(v.isValid());
     }
+    
+    public void testDummyWebXml() {}
 }
