@@ -129,7 +129,7 @@
     <slf4j.version>1.6.4</slf4j.version>
     <joda-time.version>2.8.1</joda-time.version>
     <git.commit.useNative>false</git.commit.useNative>
-    <git.commit.runOnlyOnce>true</git.commit.runOnlyOnce>
+    <git.commit.runOnlyOnce>false</git.commit.runOnlyOnce>
     <eclipse.emf.version>2.15.0</eclipse.emf.version>
     <jackson1.version>1.9.13</jackson1.version>
     <jackson2.version>2.10.5</jackson2.version>
@@ -1274,8 +1274,8 @@
         <artifactId>jms-api</artifactId>
         <version>1.1-rev-1</version>
       </dependency>
-      <!-- Needed to solve NamespaceHandler class org.apache.xbean.spring.context.v2.XBeanNamespaceHandler 
-	  for namespace [http://activemq.apache.org/schema/core] not found ClassNotFoundException: 
+      <!-- Needed to solve NamespaceHandler class org.apache.xbean.spring.context.v2.XBeanNamespaceHandler
+	  for namespace [http://activemq.apache.org/schema/core] not found ClassNotFoundException:
 	  org.apache.xbean.spring.context.v2.XBeanNamespaceHandler<br> ref: http://codebrane.com/blog/?p=823 -->
       <dependency>
         <groupId>org.apache.xbean</groupId>
