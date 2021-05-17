@@ -170,7 +170,7 @@
      -->
    </filter>
 
-   <!-- Uncomment following filter to enable CORS in Jetty. Do not forget the second config block further down.-->
+   <!-- Uncomment following filter to enable CORS in Jetty. dont forget to comment the Tomcat CORS filter config below...
     <filter>
       <filter-name>cross-origin</filter-name>
       <filter-class>org.eclipse.jetty.servlets.CrossOriginFilter</filter-class>
@@ -191,7 +191,7 @@
         <param-value>*</param-value>
       </init-param>
     </filter>
-
+   -->
    <!-- Uncomment following filter to enable CORS in Tomcat. Do not forget the second config block further down.-->
     <filter>
       <filter-name>cross-origin</filter-name>
