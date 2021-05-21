@@ -4,23 +4,31 @@
  */
 package org.geoserver.geofence.integration;
 
-import static org.geoserver.geofence.integration.GeofenceGetMapIntegrationTest.*;
+import static org.geoserver.geofence.core.model.enums.AdminGrantType.ADMIN;
+import static org.geoserver.geofence.core.model.enums.AdminGrantType.USER;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import org.geoserver.catalog.*;
+import org.geoserver.catalog.Catalog;
+import org.geoserver.catalog.CatalogBuilder;
+import org.geoserver.catalog.LayerGroupInfo;
+import org.geoserver.catalog.LayerInfo;
+import org.geoserver.catalog.WorkspaceInfo;
 import org.geoserver.data.test.MockData;
 import org.geoserver.data.test.SystemTestData;
 import org.geoserver.geofence.GeofenceAccessManager;
+import org.geoserver.geofence.config.GeoFenceConfigurationManager;
 import org.geoserver.geofence.core.model.enums.CatalogMode;
 import org.geoserver.geofence.core.model.enums.GrantType;
 import org.geoserver.geofence.services.RuleAdminService;
 import org.geoserver.ows.Dispatcher;
 import org.geoserver.ows.Request;
 import org.geoserver.security.VectorAccessLimits;
+import org.geoserver.security.WorkspaceAccessLimits;
 import org.geoserver.test.GeoServerSystemTestSupport;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,10 +41,14 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 public class GeofenceAccessManagerIntegrationTest extends GeoServerSystemTestSupport {
 
+    public GeofenceIntegrationTestSupport support;
+
     private GeofenceAccessManager accessManager;
+    private GeoFenceConfigurationManager configManager;
     private RuleAdminService ruleService;
 
     private static final String AREA_WKT =
@@ -47,13 +59,25 @@ public class GeofenceAccessManagerIntegrationTest extends GeoServerSystemTestSup
 
     @Before
     public void setUp() {
+        support =
+                new GeofenceIntegrationTestSupport(
+                        () -> GeoServerSystemTestSupport.applicationContext);
+        support.before();
         accessManager =
                 applicationContext.getBean(
                         "geofenceRuleAccessManager", GeofenceAccessManager.class);
+        configManager = applicationContext.getBean(GeoFenceConfigurationManager.class);
+
         ruleService = (RuleAdminService) applicationContext.getBean("ruleAdminService");
         // add rule to grant access to all to everything with a very low priority
         if (ruleService.getRuleByPriority(9999) == null)
-            addRule(GrantType.ALLOW, null, null, null, null, null, null, 9999, ruleService);
+            support.addRule(GrantType.ALLOW, null, null, null, null, null, null, 9999);
+    }
+
+    @After
+    public void clearRules() {
+        support.after();
+        SecurityContextHolder.getContext().setAuthentication(null);
     }
 
     @Override
@@ -68,7 +92,6 @@ public class GeofenceAccessManagerIntegrationTest extends GeoServerSystemTestSup
         // LayerGroup doesn't have an allowed area, there will be no allowedArea in the final
         // filter.
         Long idRule = null;
-        Long idRule2 = null;
         LayerGroupInfo group1 = null;
         LayerGroupInfo group2 = null;
         try {
@@ -95,7 +118,7 @@ public class GeofenceAccessManagerIntegrationTest extends GeoServerSystemTestSup
                             Arrays.asList(places, forests));
             // limit rule for anonymousUser on LayerGroup group1
             idRule =
-                    addRule(
+                    support.addRule(
                             GrantType.LIMIT,
                             "anonymousUser",
                             "ROLE_ANONYMOUS",
@@ -103,24 +126,21 @@ public class GeofenceAccessManagerIntegrationTest extends GeoServerSystemTestSup
                             null,
                             null,
                             "group21",
-                            0,
-                            ruleService);
+                            0);
 
             // limit rule for anonymousUser on LayerGroup group2
-            idRule2 =
-                    addRule(
-                            GrantType.LIMIT,
-                            "anonymousUser",
-                            "ROLE_ANONYMOUS",
-                            "WMS",
-                            null,
-                            null,
-                            "group22",
-                            1,
-                            ruleService);
+            support.addRule(
+                    GrantType.LIMIT,
+                    "anonymousUser",
+                    "ROLE_ANONYMOUS",
+                    "WMS",
+                    null,
+                    null,
+                    "group22",
+                    1);
 
             // add allowed Area only to the first layer group
-            addRuleLimits(idRule, CatalogMode.HIDE, AREA_WKT, 4326, ruleService);
+            support.addRuleLimits(idRule, CatalogMode.HIDE, AREA_WKT, 4326);
 
             // mock a WMS request to check contained layers direct access
             Request req = new Request();
@@ -139,7 +159,6 @@ public class GeofenceAccessManagerIntegrationTest extends GeoServerSystemTestSup
             logout();
         } finally {
             removeLayerGroup(group1, group2);
-            deleteRules(ruleService, idRule, idRule2);
         }
     }
 
@@ -174,7 +193,7 @@ public class GeofenceAccessManagerIntegrationTest extends GeoServerSystemTestSup
                             Arrays.asList(bridges, buildings));
             // limit rule for anonymousUser on LayerGroup group1
             idRule =
-                    addRule(
+                    support.addRule(
                             GrantType.LIMIT,
                             "anonymousUser",
                             "ROLE_ANONYMOUS",
@@ -182,14 +201,13 @@ public class GeofenceAccessManagerIntegrationTest extends GeoServerSystemTestSup
                             null,
                             null,
                             "group1",
-                            2,
-                            ruleService);
+                            2);
             // add allowed Area
-            addRuleLimits(idRule, CatalogMode.HIDE, AREA_WKT, 4326, ruleService);
+            support.addRuleLimits(idRule, CatalogMode.HIDE, AREA_WKT, 4326);
 
             // limit rule for anonymousUser on LayerGroup group2
             idRule2 =
-                    addRule(
+                    support.addRule(
                             GrantType.LIMIT,
                             "anonymousUser",
                             "ROLE_ANONYMOUS",
@@ -197,11 +215,10 @@ public class GeofenceAccessManagerIntegrationTest extends GeoServerSystemTestSup
                             null,
                             null,
                             "group2",
-                            3,
-                            ruleService);
+                            3);
 
             // add allowed Area to layer groups rules
-            addRuleLimits(idRule2, CatalogMode.HIDE, AREA_WKT_2, 4326, ruleService);
+            support.addRuleLimits(idRule2, CatalogMode.HIDE, AREA_WKT_2, 4326);
             // mock a WMS request to check contained layers direct access
             Request req = new Request();
             req.setService("WMS");
@@ -233,7 +250,6 @@ public class GeofenceAccessManagerIntegrationTest extends GeoServerSystemTestSup
             logout();
         } finally {
             removeLayerGroup(group1, group2);
-            deleteRules(ruleService, idRule, idRule2);
         }
     }
 
@@ -268,7 +284,7 @@ public class GeofenceAccessManagerIntegrationTest extends GeoServerSystemTestSup
                             Arrays.asList(lakes, fifteen));
             // limit rule for anonymousUser on LayerGroup group1
             idRule =
-                    addRule(
+                    support.addRule(
                             GrantType.LIMIT,
                             "anonymousUser",
                             "ROLE_ANONYMOUS",
@@ -276,12 +292,11 @@ public class GeofenceAccessManagerIntegrationTest extends GeoServerSystemTestSup
                             null,
                             null,
                             "group31",
-                            4,
-                            ruleService);
+                            4);
 
             // limit rule for anonymousUser on LayerGroup group2
             idRule2 =
-                    addRule(
+                    support.addRule(
                             GrantType.LIMIT,
                             "anonymousUser",
                             "ROLE_ANONYMOUS",
@@ -289,12 +304,11 @@ public class GeofenceAccessManagerIntegrationTest extends GeoServerSystemTestSup
                             null,
                             null,
                             "group32",
-                            5,
-                            ruleService);
+                            5);
 
             // add allowed Area to layer groups rules
-            addRuleLimits(idRule, CatalogMode.HIDE, AREA_WKT, 4326, ruleService);
-            addRuleLimits(idRule2, CatalogMode.HIDE, AREA_WKT_2, 4326, ruleService);
+            support.addRuleLimits(idRule, CatalogMode.HIDE, AREA_WKT, 4326);
+            support.addRuleLimits(idRule2, CatalogMode.HIDE, AREA_WKT_2, 4326);
 
             // mock a WMS request to check contained layers direct access
             Request req = new Request();
@@ -311,7 +325,6 @@ public class GeofenceAccessManagerIntegrationTest extends GeoServerSystemTestSup
             logout();
         } finally {
             removeLayerGroup(group1, group2);
-            deleteRules(ruleService, idRule, idRule2);
         }
     }
 
@@ -323,6 +336,10 @@ public class GeofenceAccessManagerIntegrationTest extends GeoServerSystemTestSup
         }
 
         return new UsernamePasswordAuthenticationToken(username, password, l);
+    }
+
+    protected void setUser(Authentication user) {
+        SecurityContextHolder.getContext().setAuthentication(user);
     }
 
     protected LayerGroupInfo createsLayerGroup(
