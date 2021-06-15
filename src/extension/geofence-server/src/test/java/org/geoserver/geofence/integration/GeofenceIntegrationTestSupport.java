@@ -17,14 +17,12 @@ import org.geoserver.geofence.core.model.RuleLimits;
 import org.geoserver.geofence.core.model.enums.AdminGrantType;
 import org.geoserver.geofence.core.model.enums.CatalogMode;
 import org.geoserver.geofence.core.model.enums.GrantType;
-import org.geoserver.geofence.core.model.enums.SpatialFilterType;
 import org.geoserver.geofence.services.AdminRuleAdminService;
 import org.geoserver.geofence.services.RuleAdminService;
 import org.geoserver.platform.GeoServerExtensions;
 import org.geoserver.test.GeoServerTestApplicationContext;
 import org.junit.rules.ExternalResource;
 import org.locationtech.jts.geom.MultiPolygon;
-import org.locationtech.jts.io.ParseException;
 import org.locationtech.jts.io.WKTReader;
 
 public class GeofenceIntegrationTestSupport extends ExternalResource {
@@ -96,24 +94,12 @@ public class GeofenceIntegrationTestSupport extends ExternalResource {
     }
 
     public void addRuleLimits(long ruleId, CatalogMode mode, String allowedArea, Integer srid)
-            throws ParseException {
-        addRuleLimits(ruleId, mode, allowedArea, srid, null);
-    }
-
-    public void addRuleLimits(
-            long ruleId,
-            CatalogMode mode,
-            String allowedArea,
-            Integer srid,
-            SpatialFilterType spatialFilterType)
             throws org.locationtech.jts.io.ParseException {
         RuleLimits limits = new RuleLimits();
         limits.setCatalogMode(mode);
         MultiPolygon allowedAreaGeom = (MultiPolygon) new WKTReader().read(allowedArea);
         if (srid != null) allowedAreaGeom.setSRID(srid);
         limits.setAllowedArea(allowedAreaGeom);
-        if (spatialFilterType == null) spatialFilterType = SpatialFilterType.INTERSECT;
-        limits.setSpatialFilterType(spatialFilterType);
         ruleService.setLimits(ruleId, limits);
     }
 
