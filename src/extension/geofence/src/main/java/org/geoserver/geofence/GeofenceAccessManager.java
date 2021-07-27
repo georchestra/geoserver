@@ -188,7 +188,6 @@ public class GeofenceAccessManager
     /** We expect the user not to be null and not to be admin */
     private boolean isWorkspaceAdmin(Authentication user, String workspaceName) {
         LOGGER.log(Level.FINE, "Getting admin auth for Workspace {0}", workspaceName);
-        final String username = user.getName().toLowerCase();
 
         RuleFilter ruleFilter;
         if (StringUtils.hasText(username)) {
