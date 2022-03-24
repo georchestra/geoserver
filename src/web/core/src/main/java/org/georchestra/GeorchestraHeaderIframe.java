@@ -30,7 +30,7 @@ public class GeorchestraHeaderIframe extends InlineFrame {
 
     @Override
     protected CharSequence getURL() {
-        return this.headerUrl;
+        return this.headerUrl + "?active=geoserver";
     }
 
     @Override
