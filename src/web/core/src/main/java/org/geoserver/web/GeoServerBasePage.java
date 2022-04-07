@@ -83,7 +83,7 @@ public class GeoServerBasePage extends WebPage implements IAjaxIndicatorAware {
 
     @SuppressWarnings("serial")
     public GeoServerBasePage() {
-      
+
         add(new GeorchestraHeaderIframe("georchestraIframe"));
         // lookup for a pluggable favicon
         PackageResourceReference faviconReference = null;
