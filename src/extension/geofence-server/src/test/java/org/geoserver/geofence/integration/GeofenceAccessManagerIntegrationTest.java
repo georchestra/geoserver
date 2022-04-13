@@ -8,7 +8,6 @@ import static org.geoserver.geofence.integration.GeofenceGetMapIntegrationTest.a
 import static org.geoserver.geofence.integration.GeofenceGetMapIntegrationTest.addRuleLimits;
 import static org.geoserver.geofence.integration.GeofenceGetMapIntegrationTest.deleteRules;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
@@ -29,7 +28,6 @@ import org.geoserver.geofence.services.RuleAdminService;
 import org.geoserver.ows.Dispatcher;
 import org.geoserver.ows.Request;
 import org.geoserver.security.VectorAccessLimits;
-import org.geoserver.security.WorkspaceAccessLimits;
 import org.geoserver.test.GeoServerSystemTestSupport;
 import org.geotools.geometry.jts.JTS;
 import org.geotools.geometry.jts.ReferencedEnvelope;
