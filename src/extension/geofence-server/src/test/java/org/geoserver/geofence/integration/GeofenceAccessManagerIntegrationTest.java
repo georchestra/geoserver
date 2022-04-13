@@ -4,10 +4,7 @@
  */
 package org.geoserver.geofence.integration;
 
-import static org.geoserver.geofence.core.model.enums.AdminGrantType.ADMIN;
-import static org.geoserver.geofence.core.model.enums.AdminGrantType.USER;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
@@ -17,7 +14,6 @@ import org.geoserver.catalog.Catalog;
 import org.geoserver.catalog.CatalogBuilder;
 import org.geoserver.catalog.LayerGroupInfo;
 import org.geoserver.catalog.LayerInfo;
-import org.geoserver.catalog.WorkspaceInfo;
 import org.geoserver.data.test.MockData;
 import org.geoserver.data.test.SystemTestData;
 import org.geoserver.geofence.GeofenceAccessManager;
@@ -28,8 +24,8 @@ import org.geoserver.geofence.services.RuleAdminService;
 import org.geoserver.ows.Dispatcher;
 import org.geoserver.ows.Request;
 import org.geoserver.security.VectorAccessLimits;
-import org.geoserver.security.WorkspaceAccessLimits;
 import org.geoserver.test.GeoServerSystemTestSupport;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.locationtech.jts.geom.Geometry;
