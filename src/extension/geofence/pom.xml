@@ -11,7 +11,6 @@
 
   <groupId>org.geoserver.extension</groupId>
   <artifactId>gs-geofence</artifactId>
-  <version>2.20.4-georchestra</version>
   <packaging>jar</packaging>
   <name>GeoFence security integration</name>
 
@@ -33,7 +32,7 @@
     <dependency>
       <groupId>org.geoserver.web</groupId>
       <artifactId>gs-web-sec-core</artifactId>
-      <version>2.20.4</version>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.geoserver</groupId>
@@ -59,7 +58,7 @@
     <dependency>
       <groupId>org.geoserver</groupId>
       <artifactId>gs-restconfig</artifactId>
-      <version>2.20.4</version>
+      <version>${project.version}</version>
     </dependency>
 
     <dependency>
@@ -95,7 +94,7 @@
     <dependency>
       <groupId>org.geoserver.web</groupId>
       <artifactId>gs-web-core</artifactId>
-      <version>2.20.4</version>
+      <version>${project.version}</version>
       <classifier>tests</classifier>
       <scope>test</scope>
     </dependency>
@@ -103,7 +102,7 @@
     <dependency>
       <groupId>org.geoserver</groupId>
       <artifactId>gs-restconfig</artifactId>
-      <version>2.20.4</version>
+      <version>${project.version}</version>
       <classifier>tests</classifier>
       <scope>test</scope>
     </dependency>
