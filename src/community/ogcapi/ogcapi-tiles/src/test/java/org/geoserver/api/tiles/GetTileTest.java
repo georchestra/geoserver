@@ -29,6 +29,7 @@ import org.geowebcache.mime.ApplicationMime;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.Matchers;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -169,6 +170,7 @@ public class GetTileTest extends TilesTestSupport {
     }
 
     @Test
+    @Ignore
     public void testMapboxTile() throws Exception {
         String layerId = getLayerId(MockData.ROAD_SEGMENTS);
         MockHttpServletResponse sr =

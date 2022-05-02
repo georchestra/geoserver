@@ -18,12 +18,14 @@ import org.apache.commons.io.IOUtils;
 import org.geoserver.ows.util.ResponseUtils;
 import org.geoserver.platform.resource.Resource;
 import org.hamcrest.Matchers;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletResponse;
 
 public class ImageTest extends ImagesTestSupport {
 
     @Test
+    @Ignore
     public void testWaterTempImages() throws Exception {
         String waterTemp = getLayerId(WATER_TEMP);
         DocumentContext json =
