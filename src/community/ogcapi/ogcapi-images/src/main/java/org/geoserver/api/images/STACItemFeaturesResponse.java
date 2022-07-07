@@ -273,9 +273,15 @@ public class STACItemFeaturesResponse extends GeoJSONGetFeatureResponse {
         // not needed in WFS3
     }
 
-    /** capabilities output format string. */
+    /**
+     * {@inheritDoc}
+     *
+     * @return {@code null}, making {@link WFSGetFeatureOutputFormat#getCapabilitiesElementNames()}
+     *     not contributing a result format on the GetCapabilities document for this output format.
+     */
+    @Override
     public String getCapabilitiesElementName() {
-        throw new UnsupportedOperationException();
+        return null;
     }
 
     @Override
