@@ -2,21 +2,22 @@ package org.georchestra;
 
 import java.util.logging.Logger;
 import org.apache.wicket.markup.ComponentTag;
-import org.apache.wicket.markup.html.link.InlineFrame;
-import org.apache.wicket.util.tester.DummyHomePage;
+import org.apache.wicket.markup.html.WebComponent;
 import org.geoserver.web.GeoServerApplication;
 import org.geotools.util.logging.Logging;
 
-public class GeorchestraHeaderIframe extends InlineFrame {
+public class GeorchestraHeaderIframe extends WebComponent {
 
     private String headerUrl;
     private String headerHeight;
+    private String legacyHeader;
 
     private static Logger LOGGER = Logging.getLogger(GeorchestraHeaderIframe.class);
 
     private void init() {
         headerHeight = getGeoServerApplication().getBean("georchestraHeaderHeight").toString();
         headerUrl = getGeoServerApplication().getBean("georchestraHeaderUrl").toString();
+        legacyHeader = getGeoServerApplication().getBean("georchestraLegacyHeader").toString();
     }
 
     protected GeoServerApplication getGeoServerApplication() {
@@ -24,20 +25,16 @@ public class GeorchestraHeaderIframe extends InlineFrame {
     }
 
     public GeorchestraHeaderIframe(String id) {
-        super(id, new DummyHomePage());
+        super(id);
         init();
     }
 
     @Override
-    protected CharSequence getURL() {
-        return this.headerUrl + "?active=geoserver";
-    }
-
-    @Override
     protected void onComponentTag(ComponentTag tag) {
-        tag.put(
-                "style",
-                "width:100%;height:" + this.headerHeight + "px;border:none;overflow:hidden;");
+        tag.put("style", "width:100%;height:" + this.headerHeight + "px;border:none;");
+        tag.put("active-app", "geoserver");
+        tag.put("legacy-url", this.headerUrl);
+        tag.put("legacy-header", this.legacyHeader);
         super.onComponentTag(tag);
     }
 }
