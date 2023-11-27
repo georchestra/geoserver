@@ -6,13 +6,13 @@ import org.apache.wicket.markup.html.WebComponent;
 import org.geoserver.web.GeoServerApplication;
 import org.geotools.util.logging.Logging;
 
-public class GeorchestraHeaderIframe extends WebComponent {
+public class GeorchestraHeaderWebComponent extends WebComponent {
 
     private String headerUrl;
     private String headerHeight;
     private String legacyHeader;
 
-    private static Logger LOGGER = Logging.getLogger(GeorchestraHeaderIframe.class);
+    private static Logger LOGGER = Logging.getLogger(GeorchestraHeaderWebComponent.class);
 
     private void init() {
         headerHeight = getGeoServerApplication().getBean("georchestraHeaderHeight").toString();
@@ -24,7 +24,7 @@ public class GeorchestraHeaderIframe extends WebComponent {
         return (GeoServerApplication) getApplication();
     }
 
-    public GeorchestraHeaderIframe(String id) {
+    public GeorchestraHeaderWebComponent(String id) {
         super(id);
         init();
     }
