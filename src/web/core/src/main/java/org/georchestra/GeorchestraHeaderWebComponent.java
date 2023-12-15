@@ -11,6 +11,8 @@ public class GeorchestraHeaderWebComponent extends WebComponent {
     private String headerUrl;
     private String headerHeight;
     private String legacyHeader;
+    private String logoUrl;
+    private String georchestraStylesheet;
 
     private static Logger LOGGER = Logging.getLogger(GeorchestraHeaderWebComponent.class);
 
@@ -18,6 +20,8 @@ public class GeorchestraHeaderWebComponent extends WebComponent {
         headerHeight = getGeoServerApplication().getBean("georchestraHeaderHeight").toString();
         headerUrl = getGeoServerApplication().getBean("georchestraHeaderUrl").toString();
         legacyHeader = getGeoServerApplication().getBean("georchestraLegacyHeader").toString();
+        logoUrl = getGeoServerApplication().getBean("georchestraLogoUrl").toString();
+        georchestraStylesheet = getGeoServerApplication().getBean("georchestraStylesheet").toString();
     }
 
     protected GeoServerApplication getGeoServerApplication() {
@@ -35,6 +39,8 @@ public class GeorchestraHeaderWebComponent extends WebComponent {
         tag.put("active-app", "geoserver");
         tag.put("legacy-url", this.headerUrl);
         tag.put("legacy-header", this.legacyHeader);
+        tag.put("logo-url", this.logoUrl);
+        tag.put("stylesheet", this.georchestraStylesheet);
         super.onComponentTag(tag);
     }
 }
