@@ -15,7 +15,7 @@
 
   <groupId>org.geoserver</groupId>
   <artifactId>gs-gwc</artifactId>
-  <version>2.22.2-georchestra</version>
+  <version>2.22.5-georchestra</version>
   <packaging>jar</packaging>
   <name>GeoWebCache (GWC) Module</name>
 
