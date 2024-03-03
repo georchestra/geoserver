@@ -1,8 +1,8 @@
 
 :root {
-  --bs-blue: #0082b6;
+  --bs-blue: var(--geoserver-text-primary);
   --bs-primary: var(--bs-blue);
-  --bs-green: #c6e09b;
+  --bs-green: var(--geoserver-secondary);
   --bs-success: var(--bs-green);
 }
 

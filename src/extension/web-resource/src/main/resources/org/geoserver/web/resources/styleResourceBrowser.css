@@ -31,11 +31,11 @@
   height: 30px;
   float: left;
   display: block;
-  background: #c6e09b;
+  background: var(--geoserver-secondary);
   border-radius: 5px;
   moz-border-radius: 5px;
   webkit-border-radius: 5px;
-  border: 1px solid #c6e09b;
+  border: 1px solid var(--geoserver-secondary);
 }
 
 .menu a {

@@ -24,7 +24,7 @@ ul.links-above-table {
 }
 
 .repeat-panel .attribute-panel > table {
-    border: 1px solid #e2efcd;
+    border: 1px solid var(--geoserver-secondary-light);
 }
 
 input:disabled,

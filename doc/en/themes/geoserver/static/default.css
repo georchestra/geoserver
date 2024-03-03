@@ -3,7 +3,7 @@ General styles
 -----------------------*/
 body {
 background: #fff;
-color: #0076a1;
+color: var(--geoserver-primary);
 font-family: "Lucida Sans Unicode", "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
 text-align:left !important; /* override blueprint's ie.css */
 }
@@ -14,7 +14,7 @@ h3,
 h4, 
 h5, 
 h6 {
-color: #0082b6;
+color: var(--geoserver-text-primary);
 font-family: "Lucida Sans", "Lucida Sans Unicode", "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
 height: auto; /* override blueprint's screen.css */
 }
@@ -28,7 +28,7 @@ font-family: "Lucida Sans", "Lucida Sans Unicode", "Lucida Grande", Verdana, Ari
 }
 
 a {
-color: #0076a1;
+color: var(--geoserver-primary);
 outline: none !important; /* avoid ugly dotted border for Firefox */
 }
 
@@ -137,9 +137,6 @@ Structural Elements
 background: #fff url(./chrome/header-bg.png) 0 100% repeat-x;
 }
 
-#main {
-background: #fff url(./chrome/main-bg.png) repeat-x;
-}
 #main .wrap {
 display: table;
 }
@@ -165,20 +162,12 @@ padding: 0px;
 color: #262523;
 display: table-cell;
 }
-#content-left {
-left: 0px;
-background: #fff url(./chrome/content-left-bg.png) repeat-x;
-}
-#content-right {
-right: 207px;
-background: #fff url(./chrome/content-right-bg.png) repeat-x;
-}
 
 #sidebar {
 width: 190px;
 margin: 0 0 0 10px;
 padding: 143px 0 0;
-color: #0076a1;
+color: var(--geoserver-primary);
 
 position: absolute;
 right: 6px;
@@ -189,7 +178,7 @@ margin: 0 -5px 0 5px;
 }
 
 #footer {
-background: #0076a1 url(./chrome/footer-bg.png) repeat-x;
+background: var(--geoserver-primary) url(./chrome/footer-bg.png) repeat-x;
 color: #d9d9d9;
 padding: 55px 0 75px;
 text-align: center;
@@ -224,7 +213,7 @@ margin: 0;
 }
 
 #account-nav a {
-color: #0076a1;
+color: var(--geoserver-primary);
 text-decoration: none;
 }
 
@@ -235,7 +224,7 @@ color: #72a629;
 #account-nav li {
 list-style-type: none;
 display: inline;
-border-right: 1px solid #c6e09b;
+border-right: 1px solid var(--geoserver-secondary);
 padding: 0 0.8em;
 }
 
@@ -256,7 +245,7 @@ margin: 0;
 display: inline;
 margin: 0;
 padding: 0 8px;
-border-left: 1px solid #c6e09b;
+border-left: 1px solid var(--geoserver-secondary);
 }
 
 #top-nav li:first-child, #top-nav li.first {
@@ -264,7 +253,7 @@ border-left: 0;
 }
 
 #top-nav li a {
-color: #0076a1;
+color: var(--geoserver-primary);
 font-weight: bold;
 font-size: 1.2em;
 text-decoration: none;
@@ -316,8 +305,8 @@ Content
 -----------------------*/
 #content #breadcrumbs {
 font-size: 0.85em;
-color: #c6e09b;
-border-bottom: 1px solid #c6e09b;
+color: var(--geoserver-secondary);
+border-bottom: 1px solid var(--geoserver-secondary);
 margin: 0 0 1em;
 padding: 0 0 0.5em;
 }

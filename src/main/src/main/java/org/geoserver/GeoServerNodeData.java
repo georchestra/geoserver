@@ -38,7 +38,7 @@ public class GeoServerNodeData {
     public static final String GEOSERVER_NODE_OPTS = "GEOSERVER_NODE_OPTS";
 
     static final String DEFAULT_NODE_ID_TEMPLATE =
-            "position:absolute; top:12px; left:12px; right:28px; width:auto; background:$background; padding: 1px; border: 1px solid #0076a1; color:$color; font-weight:bold";
+            "position:absolute; top:12px; left:12px; right:28px; width:auto; background:$background; padding: 1px; border: 1px solid var(--geoserver-primary); color:$color; font-weight:bold";
 
     static final Logger LOGGER = Logging.getLogger(GeoServerNodeData.class);
 
@@ -112,7 +112,7 @@ public class GeoServerNodeData {
                 String style = DEFAULT_NODE_ID_TEMPLATE.replace("$background", bgcolor);
                 String color = options.get("color");
                 if (color == null) {
-                    color = "#0076a1";
+                    color = "var(--geoserver-primary)";
                 }
                 nodeIdStyle = style.replace("$color", color);
             } catch (Exception e) {

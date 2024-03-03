@@ -3,7 +3,7 @@ General styles
 -----------------------*/
 body {
 background: #fff;
-color: #0076a1;
+color: var(--geoserver-primary);
 font-family: Tahoma, "Lucida Sans Unicode", "Lucida Grande", Verdana, sans-serif;
 text-align:left !important; /* override blueprint's ie.css */
 overflow-y: scroll;
@@ -32,7 +32,7 @@ h3,
 h4, 
 h5, 
 h6 {
-color: #0082b6;
+color: var(--geoserver-text-primary);
 font-family: Tahoma, "Lucida Sans", "Lucida Sans Unicode", "Lucida Grande", Verdana, sans-serif;
 height: auto; /* override blueprint's screen.css */
 }
@@ -50,7 +50,7 @@ font-family: Tahoma, "Lucida Sans", "Lucida Sans Unicode", "Lucida Grande", Verd
 }
 
 a {
-color: #0076a1;
+color: var(--geoserver-primary);
 text-decoration: none;
 outline: none !important; /* avoid ugly dotted border for Firefox */
 }
@@ -268,8 +268,7 @@ padding: 5px;
 }
 
 #main {
-border-top: 2px solid #c6e09b;
-background: url(../img/main-bg.png) repeat-x;
+border-top: 2px solid var(--geoserver-secondary);
 }
 
 #sidebar, 
@@ -308,19 +307,19 @@ background: transparent; /* override blueprint's settings */
 }
 
 thead th {
-background: #c6e09b;
-border: 1px solid #0076a1;
+background: var(--geoserver-secondary);
+border: 1px solid var(--geoserver-primary);
 border-width: 0 0 1px;
 }
 
 tr:hover td,
 tbody tr:hover th {
-background: #f4f9eb;
+background: var(--geoserver-secondary-white);
 }
 
 tr.even td,
 tr.even th {
-background: #e2efcd; /* override blueprint's settings */
+background: var(--geoserver-secondary-light); /* override blueprint's settings */
 }
 
 tr.dnd-drop-center td {
@@ -336,7 +335,7 @@ div.dnd-theme-web tr {
 
 tr.even:hover td,
 tr.even:hover th {
-background: #f4f9eb;
+background: var(--geoserver-secondary-white);
 }
 
 th.actions,
@@ -349,7 +348,7 @@ th.selection {
 }
 
 .alternating-rows tr:nth-child(even) {
-	background: #e2efcd;
+	background: var(--geoserver-secondary-light);
 }
 /*-----------------------
 Forms
@@ -397,7 +396,7 @@ font-weight: bold;
 fieldset { /* override blueprint's settings */
 padding: 0 0 1em 0;
 margin: 0 0 0.5em;
-border: 1px solid #c6e09b;
+border: 1px solid var(--geoserver-secondary);
 border-width: 1px 0 0;
 position: relative;
 }
@@ -593,12 +592,12 @@ Button  Styles
 .button-group a,
 .button-group button,
 input.btnTxt {
-background: #c6e09b url(../img/button-gradient.png) top left repeat-x;
-border: 1px solid #c6e09b;
+background: var(--geoserver-secondary) url(../img/button-gradient.png) top left repeat-x;
+border: 1px solid var(--geoserver-secondary);
 font-size: 0.9em;
 font-weight: bold;
 text-decoration: none;
-color: #0076a1;
+color: var(--geoserver-primary);
 cursor: pointer;
 padding: 5px 10px 5px 7px;
 -moz-border-radius: 5px;
@@ -831,7 +830,7 @@ text-decoration: underline;
 
 .navigation-tab {
 margin: 3px 0;
-border-bottom: 2px ridge #ebf5dd;
+border-bottom: 2px ridge var(--geoserver-secondary-white);
 }
 
 .navigation-tab-header {
@@ -846,7 +845,7 @@ padding: 3px 5px 7px;
 .navigation-tab-single,
 .navigation-tab-header {
 font-weight: bold;
-color: #0076a1;
+color: var(--geoserver-primary);
 }
 
 .navigation-tab-content {
@@ -857,7 +856,7 @@ border-top: none;
 .navigation-tab-header a,
 .navigation-tab-content a {
 display: block;
-color: #0076a1;
+color: var(--geoserver-primary);
 }
 
 li.nav-administer-service {
@@ -970,7 +969,7 @@ text-decoration: none;
 min-width: 5em;
 }
 #services a:hover .link-bordered .serviceVersion, #capabilities a:hover .link-bordered .serviceVersion {
-  color: #0076a1;
+  color: var(--geoserver-primary);
 }
 #services a:hover, #capabilities a:hover {
   text-decoration: none;
@@ -981,7 +980,6 @@ min-width: 5em;
 Rounded corners for content
 -----------------------*/
 #main .wrap {
-background: url(../img/main-wrap-bg.png) 100% 0 no-repeat;
 padding: 0 19px 250px 0;
 margin: 0 0 -250px 0;
 }
@@ -994,10 +992,6 @@ background-position: 100% -2px;
 background-position: 100% -2px;
 }
 
-#page {
-background: #fff url(../img/page-bg.png) no-repeat;
-}
-
 * html #page { /* IE6 */
 background-position: 0 -2px;
 }
@@ -1007,7 +1001,6 @@ background-position: 0 -2px;
 }
 
 .page-header {
-background: #fff url(../img/page-header-bg.png) repeat-x;
 margin-bottom: 1em;
 padding-top: 18px;
 }
@@ -1093,8 +1086,6 @@ border-radius: 5px;
 
 .status-bar span {
 display: block;
-background-image: url(../img/status-bar-bg.png);
-background-repeat: no-repeat;
 height: 10px;
 overflow: hidden;
 text-indent: -9999em;
@@ -1109,8 +1100,6 @@ border: 1px solid #555;
 
 .mini-bar span {
 display: block;
-background-image: url(../img/status-bar-bg.png);
-background-repeat: no-repeat;
 height: 2px;
 overflow: hidden;
 text-indent: -9999em;
@@ -1224,8 +1213,6 @@ width:50%;
 }
 
 div.progress-bar span.bar {
-background-image: url(../img/status-bar-bg.png);
-background-repeat:repeat-x;
 display:block;
 height:16px;
 overflow:hidden;
@@ -1251,7 +1238,7 @@ padding: 1em 0;
 .paginator a,
 .paginator em {
 padding: 2px 6px;
-border: 1px solid #c6e09b;
+border: 1px solid var(--geoserver-secondary);
 background: #fff;
 text-decoration: none;
 -moz-border-radius: 5px;
@@ -1271,7 +1258,7 @@ color: #aaa;
 }
 
 .paginator a:hover {
-background: #0076a1;
+background: var(--geoserver-primary);
 color: #fff;
 }
 

@@ -6,6 +6,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<title wicket:id="pageTitle">GeoServer</title>
     <link rel="shortcut icon" href="/favicon.ico"/>
+    <link rel="stylesheet" href="http://localhost:3000/georchestra.css">
 	<wicket:link>
       <link rel="stylesheet" href="css/blueprint/screen.css" type="text/css" media="screen, projection" />
       </wicket:link>
@@ -31,7 +32,7 @@
   <div id="go_head">
     <geor-header wicket:id="georchestraWebComponent"></geor-header>
   </div>
-  <div id="main">
+  <div id="main" data-application="geoserver">
     <div class="wrap selfclear">
     <div id="sidebar">
       <div wicket:id="nodeIdContainer"><center wicket:id="nodeId">192.168.1.4</center></div>
