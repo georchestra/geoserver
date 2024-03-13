@@ -39,7 +39,6 @@ import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.StringResourceModel;
-import org.apache.wicket.request.cycle.RequestCycle;
 import org.apache.wicket.request.http.WebResponse;
 import org.apache.wicket.request.mapper.parameter.INamedParameters.Type;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
@@ -127,11 +126,13 @@ public class GeoServerBasePage extends WebPage implements IAjaxIndicatorAware {
         }
 
         // favicon
+        /* Overriding default geoserver behavior and implement georchestra root favicon
+         *  directly in html to allow custom scripts overriding more easily
         if (faviconReference == null) {
             faviconReference = new PackageResourceReference(GeoServerBasePage.class, "favicon.ico");
         }
         String faviconUrl = RequestCycle.get().urlFor(faviconReference, null).toString();
-        add(new ExternalLink("faviconLink", faviconUrl, null));
+        add(new ExternalLink("faviconLink", faviconUrl, null));*/
 
         // page title
         add(
