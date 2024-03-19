@@ -21,7 +21,8 @@ public class GeorchestraHeaderWebComponent extends WebComponent {
         headerUrl = getGeoServerApplication().getBean("georchestraHeaderUrl").toString();
         legacyHeader = getGeoServerApplication().getBean("georchestraLegacyHeader").toString();
         logoUrl = getGeoServerApplication().getBean("georchestraLogoUrl").toString();
-        georchestraStylesheet = getGeoServerApplication().getBean("georchestraStylesheet").toString();
+        georchestraStylesheet =
+                getGeoServerApplication().getBean("georchestraStylesheet").toString();
     }
 
     protected GeoServerApplication getGeoServerApplication() {
