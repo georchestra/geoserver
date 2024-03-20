@@ -501,6 +501,6 @@
     <constructor-arg value="${georchestra.logoUrl:https://www.georchestra.org/public/georchestra-logo.svg}" />
   </bean>
   <bean id="georchestraStylesheet" class="java.lang.String" factory-method="valueOf">
-    <constructor-arg value="${georchestra.georchestraStylesheet:''}" />
+    <constructor-arg value="${georchestra.georchestraStylesheet:}" />
   </bean>
 </beans>
