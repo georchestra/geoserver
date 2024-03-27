@@ -12,6 +12,11 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
+import java.io.FileInputStream;
+import org.custommonkey.xmlunit.Validator;
+import org.geotools.util.URLs;
+import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class WebXmlTest {
@@ -35,4 +40,19 @@ public class WebXmlTest {
         Validator validator = schema.newValidator();
         validator.validate(new StreamSource(new File("src/main/webapp/WEB-INF/web.xml")));
     }
+
+    @Test
+    @Ignore
+    public void testWebXmlDTDCompliance() throws Exception {
+        // makes sure web.xml is DTD compliant (without requiring internet access in the process)
+        InputSource is = new InputSource(new FileInputStream("src/main/webapp/WEB-INF/web.xml"));
+        Validator v =
+                new Validator(
+                        is,
+                        URLs.fileToUrl(new File("src/test/java/org/geoserver/web/web-app_2_3.dtd"))
+                                .toString());
+        Assert.assertTrue(v.isValid());
+    }
+
+    public void testDummyWebXml() {}
 }
