@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- 
+<!--
  Copyright (C) 2014 - 2016 Open Source Geospatial Foundation. All rights reserved.
  This code is licensed under the GPL 2.0 license, available at the root
  application directory.
@@ -314,7 +314,7 @@
   </bean>
 
   <bean id="defaultCoverageStorePanel" class="org.geoserver.web.data.resource.DataStorePanelInfo">
-    <!-- panel info used for a default raster store icon. This is mandatory 
+    <!-- panel info used for a default raster store icon. This is mandatory
       as per StoreExtensionPoints requirements -->
     <property name="id" value="defaultRaster" />
     <property name="factoryClass" value="" />
@@ -448,7 +448,7 @@
   </bean>
 
   <bean id="wicketEnvVariableInjector" class="org.geoserver.web.WicketEnvironmentVariableCallback"/>
-  
+
   <bean id="wicketAdminRequestCallback" class="org.geoserver.web.AdminRequestWicketCallback"/>
 
 	<!-- login button -->
@@ -491,5 +491,16 @@
   <bean id="georchestraHeaderUrl" class="java.lang.String" factory-method="valueOf">
     <constructor-arg value="${georchestra.headerUrl:/header/}" />
   </bean>
-
+  <bean id="georchestraHeaderScript" class="java.lang.String" factory-method="valueOf">
+    <constructor-arg value="${georchestra.headerScript:https://cdn.jsdelivr.net/gh/georchestra/header@dist/header.js}" />
+  </bean>
+  <bean id="georchestraLegacyHeader" class="java.lang.String" factory-method="valueOf">
+    <constructor-arg value="${georchestra.useLegacyHeader:false}" />
+  </bean>
+  <bean id="georchestraLogoUrl" class="java.lang.String" factory-method="valueOf">
+    <constructor-arg value="${georchestra.logoUrl:https://www.georchestra.org/public/georchestra-logo.svg}" />
+  </bean>
+  <bean id="georchestraStylesheet" class="java.lang.String" factory-method="valueOf">
+    <constructor-arg value="${georchestra.georchestraStylesheet:}" />
+  </bean>
 </beans>

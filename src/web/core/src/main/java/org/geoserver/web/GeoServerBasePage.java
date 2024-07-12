@@ -45,7 +45,7 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.request.resource.JavaScriptResourceReference;
 import org.apache.wicket.request.resource.PackageResourceReference;
 import org.apache.wicket.resource.JQueryResourceReference;
-import org.georchestra.GeorchestraHeaderIframe;
+import org.georchestra.GeorchestraHeaderWebComponent;
 import org.geoserver.catalog.Catalog;
 import org.geoserver.config.GeoServer;
 import org.geoserver.ows.URLMangler;
@@ -107,7 +107,7 @@ public class GeoServerBasePage extends WebPage implements IAjaxIndicatorAware {
     }
 
     protected void commonBaseInit() {
-        add(new GeorchestraHeaderIframe("georchestraIframe"));
+        add(new GeorchestraHeaderWebComponent("georchestraWebComponent"));
         // lookup for a pluggable favicon
         PackageResourceReference faviconReference = null;
         List<HeaderContribution> cssContribs = getGeoServerApplication().getBeansOfType(HeaderContribution.class);
@@ -437,6 +437,16 @@ public class GeoServerBasePage extends WebPage implements IAjaxIndicatorAware {
         response.render(new PriorityHeaderItem(JavaScriptHeaderItem.forReference(
                 new JavaScriptResourceReference(JQueryResourceReference.class, VERSION_3))));
         List<HeaderContribution> cssContribs = getGeoServerApplication().getBeansOfType(HeaderContribution.class);
+        response.render(
+                new PriorityHeaderItem(
+                        JavaScriptHeaderItem.forReference(
+                                new JavaScriptResourceReference(
+                                        JQueryResourceReference.class, VERSION_3))));
+        response.render(
+                JavaScriptHeaderItem.forUrl(
+                        getGeoServerApplication().getBean("georchestraHeaderScript").toString()));
+        List<HeaderContribution> cssContribs =
+                getGeoServerApplication().getBeansOfType(HeaderContribution.class);
         for (HeaderContribution csscontrib : cssContribs) {
             try {
                 if (csscontrib.appliesTo(this)) {
