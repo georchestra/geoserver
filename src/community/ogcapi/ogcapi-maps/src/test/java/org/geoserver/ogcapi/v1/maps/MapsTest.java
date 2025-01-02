@@ -6,7 +6,7 @@ package org.geoserver.ogcapi.v1.maps;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import com.jayway.jsonpath.DocumentContext;
 import java.util.regex.Matcher;
@@ -47,8 +47,7 @@ public class MapsTest extends MapsTestSupport {
         Document document =
                 getAsJSoup(
                         "ogc/maps/v1/collections/sf:TimeWithStartEnd/styles/Default/map?f=html&datetime=2012-02-12T00:00:00Z");
-        boolean found = searchParameter(document, "\"datetime\": '2012-02-12T00:00:00Z'");
-        assertTrue(found);
+        assertEquals("2012-02-12T00:00:00Z", getParameterValue(document, "datetime"));
     }
 
     @Test
@@ -79,5 +78,14 @@ public class MapsTest extends MapsTestSupport {
             }
         }
         return found;
+    }
+
+    private static String getParameterValue(Document document, String key) {
+        Elements parameters = document.select("input[type='hidden'][title='" + key + "']");
+        if (parameters.isEmpty()) return null;
+        if (parameters.size() > 1)
+            fail("Found more than one element with key " + key + ": " + parameters);
+        Element parameter = parameters.first();
+        return parameter.attr("value");
     }
 }
