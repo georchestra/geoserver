@@ -503,4 +503,7 @@
   <bean id="georchestraStylesheet" class="java.lang.String" factory-method="valueOf">
     <constructor-arg value="${georchestra.georchestraStylesheet:}" />
   </bean>
+  <bean id="georchestraHeaderConfigFile" class="java.lang.String" factory-method="valueOf">
+    <constructor-arg value="${georchestra.headerConfigFile:}" />
+  </bean>
 </beans>
