@@ -45,6 +45,7 @@ public class GeorchestraHeaderWebComponent extends WebComponent {
         tag.put("logo-url", this.logoUrl);
         tag.put("config-file", this.headerConfigFile);
         tag.put("stylesheet", this.georchestraStylesheet);
+        tag.put("height", this.headerHeight);
         super.onComponentTag(tag);
     }
 }
