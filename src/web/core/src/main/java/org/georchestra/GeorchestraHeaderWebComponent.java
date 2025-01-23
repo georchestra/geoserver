@@ -13,6 +13,7 @@ public class GeorchestraHeaderWebComponent extends WebComponent {
     private String legacyHeader;
     private String logoUrl;
     private String georchestraStylesheet;
+    private String headerConfigFile;
 
     private static Logger LOGGER = Logging.getLogger(GeorchestraHeaderWebComponent.class);
 
@@ -23,6 +24,8 @@ public class GeorchestraHeaderWebComponent extends WebComponent {
         logoUrl = getGeoServerApplication().getBean("georchestraLogoUrl").toString();
         georchestraStylesheet =
                 getGeoServerApplication().getBean("georchestraStylesheet").toString();
+        headerConfigFile =
+                getGeoServerApplication().getBean("georchestraHeaderConfigFile").toString();
     }
 
     protected GeoServerApplication getGeoServerApplication() {
@@ -36,12 +39,13 @@ public class GeorchestraHeaderWebComponent extends WebComponent {
 
     @Override
     protected void onComponentTag(ComponentTag tag) {
-        tag.put("style", "width:100%;height:" + this.headerHeight + "px;border:none;");
         tag.put("active-app", "geoserver");
         tag.put("legacy-url", this.headerUrl);
         tag.put("legacy-header", this.legacyHeader);
         tag.put("logo-url", this.logoUrl);
+        tag.put("config-file", this.headerConfigFile);
         tag.put("stylesheet", this.georchestraStylesheet);
+        tag.put("height", this.headerHeight);
         super.onComponentTag(tag);
     }
 }
