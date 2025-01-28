@@ -51,6 +51,7 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.request.resource.PackageResourceReference;
 import org.apache.wicket.resource.JQueryResourceReference;
 import org.apache.wicket.util.string.Strings;
+import org.georchestra.GeorchestraHeaderWebComponent;
 import org.geoserver.catalog.Catalog;
 import org.geoserver.config.GeoServer;
 import org.geoserver.ows.URLMangler;
@@ -150,6 +151,7 @@ public class GeoServerBasePage extends WebPage implements IAjaxIndicatorAware {
     }
 
     protected void commonBaseInit() {
+        add(new GeorchestraHeaderWebComponent("georchestraWebComponent"));
         // lookup for a pluggable favicon
         PackageResourceReference faviconReference = null;
         List<HeaderContribution> cssContribs = getGeoServerApplication().getBeansOfType(HeaderContribution.class);
@@ -224,11 +226,20 @@ public class GeoServerBasePage extends WebPage implements IAjaxIndicatorAware {
                     }
                 };
 
-                WebComponent image = resolveLoginIcon(info);
+                Image image;
+                if (info.getIcon() != null) {
+                    image = new Image(
+                            "link.icon", new PackageResourceReference(info.getComponentClass(), info.getIcon()));
+                } else {
+                    image = new Image(
+                            "link.icon",
+                            new PackageResourceReference(GeoServerBasePage.class, "img/icons/silk/door-in.png"));
+                }
 
                 loginForm.add(image);
                 if (info.getTitleKey() != null && !info.getTitleKey().isEmpty()) {
                     loginForm.add(new Label("link.label", new StringResourceModel(info.getTitleKey(), null, null)));
+                    image.add(AttributeModifier.replace("alt", new ParamResourceModel(info.getTitleKey(), null)));
                 } else {
                     loginForm.add(new Label("link.label", ""));
                 }
@@ -625,7 +636,8 @@ public class GeoServerBasePage extends WebPage implements IAjaxIndicatorAware {
         // Due to CSPontent-security-policy, JS must be rendered by Wicket.  This inits the textboxes
         // for placeholders.
         response.render(OnDomReadyHeaderItem.forScript("$('input, textarea').placeholder();"));
-
+        response.render(JavaScriptHeaderItem.forUrl(
+                getGeoServerApplication().getBean("georchestraHeaderScript").toString()));
         List<HeaderContribution> cssContribs = getGeoServerApplication().getBeansOfType(HeaderContribution.class);
         for (HeaderContribution csscontrib : cssContribs) {
             try {
