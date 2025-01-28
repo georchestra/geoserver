@@ -15,6 +15,7 @@
 
   <groupId>org.geoserver</groupId>
   <artifactId>gs-wms</artifactId>
+  <version>2.25.3-georchestra</version>
   <packaging>jar</packaging>
   <name>Web Map Service Module</name>
 
