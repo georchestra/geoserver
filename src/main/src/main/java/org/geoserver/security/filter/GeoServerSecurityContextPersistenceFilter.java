@@ -7,7 +7,6 @@
 package org.geoserver.security.filter;
 
 import java.io.IOException;
-import java.util.function.Supplier;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -15,8 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.geoserver.security.GeoServerSecurityFilterChainProxy;
 import org.geoserver.security.config.SecurityContextPersistenceFilterConfig;
 import org.geoserver.security.config.SecurityNamedServiceConfig;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -47,6 +44,13 @@ public class GeoServerSecurityContextPersistenceFilter extends GeoServerComposit
             @Override
             public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
                     throws IOException, ServletException {
+                // ensure that filter is only applied once per request
+                if (request.getAttribute(FILTER_APPLIED) != null) {
+                    chain.doFilter(request, response);
+                    return;
+                }
+                request.setAttribute(FILTER_APPLIED, Boolean.TRUE);
+
                 // set the hint for authentcation servlets
                 request.setAttribute(ALLOWSESSIONCREATION_ATTR, isAllowSessionCreation);
                 if (isAllowSessionCreation) {
@@ -54,24 +58,7 @@ public class GeoServerSecurityContextPersistenceFilter extends GeoServerComposit
                 }
                 // set the hint for other components
                 request.setAttribute(GeoServerSecurityFilterChainProxy.SECURITY_ENABLED_ATTRIBUTE, Boolean.TRUE);
-                // ensure that filter is only applied once per request
-                if (request.getAttribute(FILTER_APPLIED) != null) {
-                    chain.doFilter(request, response);
-                    return;
-                }
-                request.setAttribute(FILTER_APPLIED, Boolean.TRUE);
-                try {
-                    Supplier<SecurityContext> securityContext = repo.loadDeferredContext(request);
-                    SecurityContextHolder.setDeferredContext(securityContext);
-                    chain.doFilter(request, response);
-                } finally {
-                    SecurityContext contextAfterChainExecution = SecurityContextHolder.getContext();
-                    // Crucial removal of SecurityContextHolder contents before anything
-                    // else.
-                    SecurityContextHolder.clearContext();
-                    repo.saveContext(contextAfterChainExecution, request, response);
-                    request.removeAttribute(FILTER_APPLIED);
-                }
+                chain.doFilter(request, response);
             }
         };
         isAllowSessionCreation = pConfig.isAllowSessionCreation();
