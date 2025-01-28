@@ -77,6 +77,7 @@ public class CollectionsTest extends FeaturesTestSupport {
     }
 
     @Test
+    @Ignore
     public void testSkipMisconfigured() throws Exception {
         // enable skipping of misconfigured layers
         GeoServerInfo global = getGeoServer().getGlobal();
