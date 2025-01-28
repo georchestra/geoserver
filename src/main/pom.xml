@@ -15,6 +15,7 @@
 
   <groupId>org.geoserver</groupId>
   <artifactId>gs-main</artifactId>
+  <version>2.26.2-georchestra</version>
   <packaging>jar</packaging>
   <name>Main Module</name>
 
