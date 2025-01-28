@@ -470,4 +470,41 @@
 		<property name="componentClass" value="org.geoserver.web.publish.ServiceLayerConfigurationPanel"/>
 	</bean>
  
+
+    <!-- geOrchestra specific - wiring to the georchestra datadir -->
+
+  <bean id="georchestraDatadirProps" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    <property name="ignoreUnresolvablePlaceholders" value="true" />
+    <property name="ignoreResourceNotFound" value="true" />
+    <property name="locations">
+      <list>
+        <value>file:${georchestra.datadir}/default.properties</value>
+        <value>file:${georchestra.datadir}/geoserver/geoserver.properties</value>
+      </list>
+    </property>
+    <property name="placeholderPrefix" value="${georchestra." />
+    <property name="order" value="2" />
+  </bean>
+
+  <bean id="georchestraHeaderHeight" class="java.lang.String" factory-method="valueOf">
+    <constructor-arg value="${georchestra.headerHeight:90}" />
+  </bean>
+  <bean id="georchestraHeaderUrl" class="java.lang.String" factory-method="valueOf">
+    <constructor-arg value="${georchestra.headerUrl:/header/}" />
+  </bean>
+  <bean id="georchestraHeaderScript" class="java.lang.String" factory-method="valueOf">
+    <constructor-arg value="${georchestra.headerScript:https://cdn.jsdelivr.net/gh/georchestra/header@dist/header.js}" />
+  </bean>
+  <bean id="georchestraLegacyHeader" class="java.lang.String" factory-method="valueOf">
+    <constructor-arg value="${georchestra.useLegacyHeader:false}" />
+  </bean>
+  <bean id="georchestraLogoUrl" class="java.lang.String" factory-method="valueOf">
+    <constructor-arg value="${georchestra.logoUrl:https://www.georchestra.org/public/georchestra-logo.svg}" />
+  </bean>
+  <bean id="georchestraStylesheet" class="java.lang.String" factory-method="valueOf">
+    <constructor-arg value="${georchestra.georchestraStylesheet:}" />
+  </bean>
+  <bean id="georchestraHeaderConfigFile" class="java.lang.String" factory-method="valueOf">
+    <constructor-arg value="${georchestra.headerConfigFile:}" />
+  </bean>
 </beans>
