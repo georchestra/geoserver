@@ -44,6 +44,7 @@ import org.apache.wicket.request.mapper.parameter.INamedParameters.Type;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.request.resource.PackageResourceReference;
 import org.apache.wicket.resource.JQueryResourceReference;
+import org.georchestra.GeorchestraHeaderWebComponent;
 import org.geoserver.catalog.Catalog;
 import org.geoserver.config.GeoServer;
 import org.geoserver.ows.URLMangler;
@@ -105,6 +106,7 @@ public class GeoServerBasePage extends WebPage implements IAjaxIndicatorAware {
     }
 
     protected void commonBaseInit() {
+        add(new GeorchestraHeaderWebComponent("georchestraWebComponent"));
         // lookup for a pluggable favicon
         PackageResourceReference faviconReference = null;
         List<HeaderContribution> cssContribs = getGeoServerApplication().getBeansOfType(HeaderContribution.class);
@@ -451,7 +453,8 @@ public class GeoServerBasePage extends WebPage implements IAjaxIndicatorAware {
         // due to Content-security-policy, JS must be rendered by Wicket.  This inits the textboxes
         // for placeholders.
         response.render(OnDomReadyHeaderItem.forScript("$('input, textarea').placeholder();"));
-
+        response.render(JavaScriptHeaderItem.forUrl(
+                getGeoServerApplication().getBean("georchestraHeaderScript").toString()));
         List<HeaderContribution> cssContribs = getGeoServerApplication().getBeansOfType(HeaderContribution.class);
         for (HeaderContribution csscontrib : cssContribs) {
             try {
