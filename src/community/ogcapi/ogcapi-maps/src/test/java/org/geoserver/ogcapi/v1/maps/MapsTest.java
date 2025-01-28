@@ -75,8 +75,7 @@ public class MapsTest extends MapsTestSupport {
     private static String getParameterValue(Document document, String key) {
         Elements parameters = document.select("input[type='hidden'][title='" + key + "']");
         if (parameters.isEmpty()) return null;
-        if (parameters.size() > 1)
-            fail("Found more than one element with key " + key + ": " + parameters);
+        if (parameters.size() > 1) fail("Found more than one element with key " + key + ": " + parameters);
         Element parameter = parameters.first();
         return parameter.attr("value");
     }
