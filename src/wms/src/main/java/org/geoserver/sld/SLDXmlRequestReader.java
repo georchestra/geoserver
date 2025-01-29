@@ -8,6 +8,7 @@ package org.geoserver.sld;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.Map;
+import org.geoserver.catalog.StyleHandler;
 import org.geoserver.catalog.Styles;
 import org.geoserver.ows.XmlRequestReader;
 import org.geoserver.platform.ServiceException;
@@ -15,6 +16,8 @@ import org.geoserver.wms.GetMapRequest;
 import org.geoserver.wms.WMS;
 import org.geoserver.wms.map.ProcessStandaloneSLDVisitor;
 import org.geotools.api.style.StyledLayerDescriptor;
+import org.geotools.util.Version;
+import org.xml.sax.EntityResolver;
 
 /**
  * Reads
@@ -37,9 +40,15 @@ public class SLDXmlRequestReader extends XmlRequestReader {
         }
         try {
             GetMapRequest getMap = (GetMapRequest) request;
+            String styleFormat = getMap.getStyleFormat();
+            StyleHandler styleParser = Styles.handler(styleFormat);
+
+            Version styleVersion = getMap.styleVersion();
+
+            EntityResolver entityResolver = wms.getCatalog().getResourcePool().getEntityResolver();
+
             StyledLayerDescriptor sld =
-                    Styles.handler(getMap.getStyleFormat())
-                            .parse(reader, getMap.styleVersion(), null, null);
+                    styleParser.parse(reader, styleVersion, null, entityResolver);
 
             // process the sld
             sld.accept(new ProcessStandaloneSLDVisitor(wms, getMap));
