@@ -18,9 +18,11 @@ public class GeorchestraHeaderWebComponent extends WebComponent {
     private static Logger LOGGER = Logging.getLogger(GeorchestraHeaderWebComponent.class);
 
     private void init() {
-        headerHeight = getGeoServerApplication().getBean("georchestraHeaderHeight").toString();
+        headerHeight =
+                getGeoServerApplication().getBean("georchestraHeaderHeight").toString();
         headerUrl = getGeoServerApplication().getBean("georchestraHeaderUrl").toString();
-        legacyHeader = getGeoServerApplication().getBean("georchestraLegacyHeader").toString();
+        legacyHeader =
+                getGeoServerApplication().getBean("georchestraLegacyHeader").toString();
         logoUrl = getGeoServerApplication().getBean("georchestraLogoUrl").toString();
         georchestraStylesheet =
                 getGeoServerApplication().getBean("georchestraStylesheet").toString();
