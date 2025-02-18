@@ -73,6 +73,33 @@ public class GeoServerSecurityContextPersistenceFilter extends GeoServerComposit
                 }
             }
         };
+        OncePerRequestFilter eagerFilter =
+                new OncePerRequestFilter() {
+                    @Override
+                    public void doFilterInternal(
+                            HttpServletRequest request,
+                            HttpServletResponse response,
+                            FilterChain chain)
+                            throws IOException, ServletException {
+                        // ensure that filter is only applied once per request
+                        if (request.getAttribute(FILTER_APPLIED) != null) {
+                            chain.doFilter(request, response);
+                            return;
+                        }
+                        request.setAttribute(FILTER_APPLIED, Boolean.TRUE);
+                        // set the hint for authentcation servlets
+                        request.setAttribute(ALLOWSESSIONCREATION_ATTR, isAllowSessionCreation);
+                        if (isAllowSessionCreation) {
+                            request.getSession();
+                        }
+                        // set the hint for other components
+                        request.setAttribute(
+                                GeoServerSecurityFilterChainProxy.SECURITY_ENABLED_ATTRIBUTE,
+                                Boolean.TRUE);
+
+                        chain.doFilter(request, response);
+                    }
+                };
         isAllowSessionCreation = pConfig.isAllowSessionCreation();
         repo.setAllowSessionCreation(pConfig.isAllowSessionCreation());
         try {
