@@ -11,5 +11,7 @@
 
   <bean id="statusPageExtraTab" class="org.geoserver.web.admin.StatusPageTest$ExtraTabDefinition"/>
 
-  <bean class="org.geoserver.web.FakeServiceDescriptionProvider"/>
+  <bean id="fakeService" class="org.geoserver.web.FakeServiceDescriptionProvider">
+    <constructor-arg index="0" value="Fake"/>
+  </bean>
 </beans>
