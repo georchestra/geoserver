@@ -925,6 +925,7 @@ overflow: hidden;
 text-indent: -9999em;
 text-align: left;
 margin: 0 0 -23px;
+display: none;
 }
 
 * html #header h2 a {
