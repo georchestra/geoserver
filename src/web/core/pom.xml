@@ -16,7 +16,7 @@
 
   <groupId>org.geoserver.web</groupId>
   <artifactId>gs-web-core</artifactId>
-  <version>2.27-SNAPSHOT-georchestra</version>
+  <version>2.27.1-georchestra</version>
   <packaging>jar</packaging>
   <name>Core UI Module</name>
 
