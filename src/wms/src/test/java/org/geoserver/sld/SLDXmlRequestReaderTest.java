@@ -29,11 +29,6 @@ public class SLDXmlRequestReaderTest extends WMSTestSupport {
                 .filter(SLDXmlRequestReader.class::isInstance)
                 .map(SLDXmlRequestReader.class::cast)
                 .findFirst();
-        Optional<SLDXmlRequestReader> findExtension =
-                xmlReaders.stream()
-                        .filter(SLDXmlRequestReader.class::isInstance)
-                        .map(SLDXmlRequestReader.class::cast)
-                        .findFirst();
         assertTrue(findExtension.isPresent());
     }
 

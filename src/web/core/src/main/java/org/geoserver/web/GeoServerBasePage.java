@@ -32,7 +32,6 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
-import org.apache.wicket.markup.html.link.ExternalLink;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
@@ -436,17 +435,9 @@ public class GeoServerBasePage extends WebPage implements IAjaxIndicatorAware {
         // need it)
         response.render(new PriorityHeaderItem(JavaScriptHeaderItem.forReference(
                 new JavaScriptResourceReference(JQueryResourceReference.class, VERSION_3))));
+        response.render(JavaScriptHeaderItem.forUrl(
+                getGeoServerApplication().getBean("georchestraHeaderScript").toString()));
         List<HeaderContribution> cssContribs = getGeoServerApplication().getBeansOfType(HeaderContribution.class);
-        response.render(
-                new PriorityHeaderItem(
-                        JavaScriptHeaderItem.forReference(
-                                new JavaScriptResourceReference(
-                                        JQueryResourceReference.class, VERSION_3))));
-        response.render(
-                JavaScriptHeaderItem.forUrl(
-                        getGeoServerApplication().getBean("georchestraHeaderScript").toString()));
-        List<HeaderContribution> cssContribs =
-                getGeoServerApplication().getBeansOfType(HeaderContribution.class);
         for (HeaderContribution csscontrib : cssContribs) {
             try {
                 if (csscontrib.appliesTo(this)) {

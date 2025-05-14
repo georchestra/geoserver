@@ -48,15 +48,6 @@ public class SLDXmlRequestReader extends XmlRequestReader {
             EntityResolver entityResolver = wms.getCatalog().getResourcePool().getEntityResolver();
 
             StyledLayerDescriptor sld = styleParser.parse(reader, styleVersion, null, entityResolver);
-            String styleFormat = getMap.getStyleFormat();
-            StyleHandler styleParser = Styles.handler(styleFormat);
-
-            Version styleVersion = getMap.styleVersion();
-
-            EntityResolver entityResolver = wms.getCatalog().getResourcePool().getEntityResolver();
-
-            StyledLayerDescriptor sld =
-                    styleParser.parse(reader, styleVersion, null, entityResolver);
 
             // process the sld
             sld.accept(new ProcessStandaloneSLDVisitor(wms, getMap));
