@@ -11,16 +11,16 @@ If needed, geOrchestra is able to work with an unmodified, standard [GeoServer](
 
 GeoServer:
 ```
-make war-build-geoserver
+make war
 ```
-... or `make deb-build-geoserver` to build a Debian package.
+... or `make deb` to build a Debian package.
 
 
 GeoServer **with integrated GeoFence** app:
 ```
-make war-build-geoserver-geofence
+make war-geofence
 ```
-... or `make deb-build-geoserver-geofence` to build a Debian package.
+... or `make deb-geofence` to build a Debian package.
 
 
 ## GeoFence

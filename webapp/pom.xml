@@ -1184,7 +1184,7 @@
                       <condition property="project.packageVersion"
                         value="${build.closest.tag.name}.${maven.build.timestamp}~${build.commit.id.abbrev}"
                         else="99.master.${maven.build.timestamp}~${build.commit.id.abbrev}">
-                      <matches string="${build.branch}" pattern="\d{2}\.\d\.x$" />
+                      <matches string="${build.branch}" pattern="\d\.\d+\.\d-.*$" />
                     </condition>
                   </target>
                 </configuration>
