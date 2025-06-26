@@ -35,6 +35,13 @@
     <module>src/extension/ogcapi</module>
     <module>webapp</module>
   </modules>
+  <distributionManagement>
+    <repository>
+      <id>geOrchestra-artifactory</id>
+      <name>geOrchestra Maven repository</name>
+      <url>https://artifactory.georchestra.org/artifactory/georchestra/</url>
+    </repository>
+  </distributionManagement>
   <profiles>
     <profile>
       <id>geofence</id>
