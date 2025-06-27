@@ -455,6 +455,10 @@ public class GeoServerBasePage extends WebPage implements IAjaxIndicatorAware {
         response.render(OnDomReadyHeaderItem.forScript("$('input, textarea').placeholder();"));
         response.render(JavaScriptHeaderItem.forUrl(
                 getGeoServerApplication().getBean("georchestraHeaderScript").toString()));
+
+        response.render(CssReferenceHeaderItem.forUrl(
+                getGeoServerApplication().getBean("georchestraStylesheet").toString()));
+
         List<HeaderContribution> cssContribs = getGeoServerApplication().getBeansOfType(HeaderContribution.class);
         for (HeaderContribution csscontrib : cssContribs) {
             try {
