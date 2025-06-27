@@ -48,6 +48,7 @@ public class GeorchestraHeaderWebComponent extends WebComponent {
         tag.put("config-file", this.headerConfigFile);
         tag.put("stylesheet", this.georchestraStylesheet);
         tag.put("height", this.headerHeight);
+        tag.put("custom-nonce", getGeoServerApplication().getNonce());
         super.onComponentTag(tag);
     }
 }
