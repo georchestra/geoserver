@@ -242,12 +242,34 @@ public class GeoServerApplication extends WebApplication
         //   child-src 'self'; frame-src 'self'; base-uri 'self';
         // GeoServer adds data: to the img-src directive to allow image data URIs used by
         // OpenLayers, CodeMirror, the datetime picker and color picker (primarily for Style Editor)
+        // geOrchestra adds googleapis/fonts for css/font sources, and the url of the web-component
+        // header on the CDN (which in turns requires unsafe-eval)
         if (CSP_STRICT) {
-            getCspSettings().blocking().strict().add(CSPDirective.IMG_SRC, "data:");
+            getCspSettings()
+                    .blocking()
+                    .strict()
+                    .add(CSPDirective.IMG_SRC, "data:")
+                    .add(CSPDirective.FONT_SRC, "'self'")
+                    .add(CSPDirective.FONT_SRC, "https://fonts.gstatic.com")
+                    .add(CSPDirective.STYLE_SRC, "'self'")
+                    .add(CSPDirective.STYLE_SRC, "https://fonts.googleapis.com")
+                    .add(CSPDirective.SCRIPT_SRC, "'self'")
+                    .add(CSPDirective.SCRIPT_SRC, "https://cdn.jsdelivr.net/gh/georchestra/")
+                    .add(CSPDirective.SCRIPT_SRC, "'unsafe-eval'");
         } else {
             // More relaxed configuration: disable blocking and enable reporting only
             getCspSettings().blocking().disabled();
-            getCspSettings().reporting().strict().add(CSPDirective.IMG_SRC, "data:");
+            getCspSettings()
+                    .reporting()
+                    .strict()
+                    .add(CSPDirective.IMG_SRC, "data:")
+                    .add(CSPDirective.FONT_SRC, "'self'")
+                    .add(CSPDirective.FONT_SRC, "https://fonts.gstatic.com")
+                    .add(CSPDirective.STYLE_SRC, "'self'")
+                    .add(CSPDirective.STYLE_SRC, "https://fonts.googleapis.com")
+                    .add(CSPDirective.SCRIPT_SRC, "'self'")
+                    .add(CSPDirective.SCRIPT_SRC, "https://cdn.jsdelivr.net/gh/georchestra/")
+                    .add(CSPDirective.SCRIPT_SRC, "'unsafe-eval'");
         }
         /*
          * The order string resource loaders are added to IResourceSettings is of importance so we need to add any contributed loader prior to the
