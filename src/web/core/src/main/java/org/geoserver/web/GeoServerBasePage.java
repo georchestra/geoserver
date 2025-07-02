@@ -639,8 +639,10 @@ public class GeoServerBasePage extends WebPage implements IAjaxIndicatorAware {
         response.render(JavaScriptHeaderItem.forUrl(
                 getGeoServerApplication().getBean("georchestraHeaderScript").toString()));
 
-        response.render(CssReferenceHeaderItem.forUrl(
-                getGeoServerApplication().getBean("georchestraStylesheet").toString()));
+        String gcss = getGeoServerApplication().getBean("georchestraStylesheet").toString();
+        if (!Strings.isEmpty(gcss)) {
+            response.render(CssReferenceHeaderItem.forUrl(gcss));
+        }
 
         List<HeaderContribution> cssContribs = getGeoServerApplication().getBeansOfType(HeaderContribution.class);
         for (HeaderContribution csscontrib : cssContribs) {
