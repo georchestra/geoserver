@@ -13,7 +13,7 @@ docker-build-geofence: docker-pull-jetty
     cd webapp; \
 	mvn clean install docker:build -DdockerImageTags=${BTAG} -Pdocker,geofence,${GEOSERVER_EXTENSION_PROFILES} -DskipTests
 
-war:
+war-build:
 	LANG=C mvn clean install -DskipTests -Dfmt.skip=true -P${GEOSERVER_EXTENSION_PROFILES}; \
 	mvn clean install -pl webapp -P${GEOSERVER_EXTENSION_PROFILES}
 
@@ -21,7 +21,7 @@ war-geofence:
 	LANG=C mvn clean install -DskipTests -Dfmt.skip=true -P${GEOSERVER_EXTENSION_PROFILES},geofence; \
 	mvn clean install -pl webapp -P${GEOSERVER_EXTENSION_PROFILES}
 
-deb: war
+deb: war-build
 	mvn clean package deb:package -pl webapp -PdebianPackage,${GEOSERVER_EXTENSION_PROFILES} ${DEPLOY_OPTS}
 
 deb-geofence: war-geofence
