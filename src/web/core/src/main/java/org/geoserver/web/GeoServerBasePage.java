@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.Component;
 import org.apache.wicket.Page;
@@ -112,6 +113,14 @@ public class GeoServerBasePage extends WebPage implements IAjaxIndicatorAware {
         // lookup for a pluggable favicon
         PackageResourceReference faviconReference = null;
         List<HeaderContribution> cssContribs = getGeoServerApplication().getBeansOfType(HeaderContribution.class);
+        String georchestraStylesheet =
+                getGeoServerApplication().getBean("georchestraStylesheet").toString();
+        if (StringUtils.isNotEmpty(georchestraStylesheet)) {
+            HeaderContribution georchestraStylesheetContribution = new HeaderContribution();
+            georchestraStylesheetContribution.setScope(this.getClass());
+            georchestraStylesheetContribution.setCSSFilename(georchestraStylesheet);
+            cssContribs.add(georchestraStylesheetContribution);
+        }
         for (HeaderContribution csscontrib : cssContribs) {
             try {
                 if (csscontrib.appliesTo(this)) {
