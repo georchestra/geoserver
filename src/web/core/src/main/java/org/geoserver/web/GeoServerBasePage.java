@@ -114,6 +114,14 @@ public class GeoServerBasePage extends WebPage implements IAjaxIndicatorAware {
         // lookup for a pluggable favicon
         PackageResourceReference faviconReference = null;
         List<HeaderContribution> cssContribs = getGeoServerApplication().getBeansOfType(HeaderContribution.class);
+        String georchestraStylesheet =
+                getGeoServerApplication().getBean("georchestraStylesheet").toString();
+        if (StringUtils.isNotEmpty(georchestraStylesheet)) {
+            HeaderContribution georchestraStylesheetContribution = new HeaderContribution();
+            georchestraStylesheetContribution.setScope(this.getClass());
+            georchestraStylesheetContribution.setCSSFilename(georchestraStylesheet);
+            cssContribs.add(georchestraStylesheetContribution);
+        }
         for (HeaderContribution csscontrib : cssContribs) {
             try {
                 if (csscontrib.appliesTo(this)) {
