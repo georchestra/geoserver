@@ -74,17 +74,10 @@
 
   <distributionManagement>
     <repository>
-      <uniqueVersion>false</uniqueVersion>
-      <id>nexus</id>
-      <name>OSGeo Release Repository</name>
-      <url>https://repo.osgeo.org/repository/Geoserver-releases/</url>
+      <id>geOrchestra-artifactory</id>
+      <name>geOrchestra Maven repository</name>
+      <url>https://artifactory.georchestra.org/artifactory/georchestra/</url>
     </repository>
-    <snapshotRepository>
-      <uniqueVersion>false</uniqueVersion>
-      <id>nexus</id>
-      <name>OSGeo Snapshot Repository</name>
-      <url>https://repo.osgeo.org/repository/geoserver-snapshots/</url>
-    </snapshotRepository>
   </distributionManagement>
 
   <properties>
