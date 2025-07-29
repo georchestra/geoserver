@@ -30,11 +30,11 @@ jobs:
         cache: 'maven'
 
     - name: "Installing & checking formatting"
-      run: ./mvnw --no-transfer-progress -B -P-all,geoserver,geofence -Dfmt.skip=true install -Dadditionalparam=-Xdoclint:none -DskipTests
+      run: mvn --no-transfer-progress -B -P-all,geoserver,geofence -Dfmt.skip=true install -Dadditionalparam=-Xdoclint:none -DskipTests
 
     - name: "Running tests"
       working-directory: geoserver/
-      run: ../mvnw --no-transfer-progress clean verify -Pit -Dfmt.skip=true -Dadditionalparam=-Xdoclint:none
+      run: mvn --no-transfer-progress clean verify -Pit -Dfmt.skip=true -Dadditionalparam=-Xdoclint:none
 
     - name: Getting image tag
       if: github.repository == 'georchestra/geoserver' && github.actor != 'dependabot[bot]'
