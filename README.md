@@ -1,56 +1,48 @@
-<img src="/doc/en/themes/geoserver/static/GeoServer_500.png" width="353">
+# GeoServer in geOrchestra
 
-[![Gitter](https://badges.gitter.im/geoserver/geoserver.svg)](https://gitter.im/geoserver/geoserver?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![DOI](https://zenodo.org/badge/2751199.svg)](https://zenodo.org/badge/latestdoi/2751199)
+![geoserver](https://github.com/georchestra/georchestra/workflows/geoserver/badge.svg)
 
-[GeoServer](https://geoserver.org) is an open source software server written in Java that 
-allows users to share and edit geospatial data. Designed for interoperability, it publishes data from 
-any major spatial data source using open standards.
+geOrchestra comes with it's own GeoServer version, which is a very light fork for customization (header & geofence integration, mainly).
 
-Being a community-driven project, GeoServer is developed, tested, and supported by a diverse group of 
-individuals and organizations from around the world.
+If needed, geOrchestra is able to work with an unmodified, standard [GeoServer](http://geoserver.org/) instance, provided the [georchestra/geoserver_minimal_datadir](https://github.com/georchestra/geoserver_minimal_datadir) custom datadir is used.
 
-GeoServer is the reference implementation of the Open Geospatial Consortium (OGC) 
-Web Feature Service (WFS) and Web Coverage Service (WCS) standards, as well as a high performance 
-certified compliant Web Map Service (WMS), compliant Catalog Service for the Web (CSW)
-and implementing Web Processing Service (WPS). 
-GeoServer forms a core component of the Geospatial Web.
 
-## License
+## Building GeoServer flavors
 
-GeoServer licensed under the [GPL](https://docs.geoserver.org/latest/en/user/introduction/license.html).
+GeoServer:
+```
+make war
+```
+... or `make deb` to build a Debian package.
 
-## Using
 
-Please refer to the [user guide](https://docs.geoserver.org/latest/en/user/) for information
-on how to install and use GeoServer.
+GeoServer **with integrated GeoFence** app:
+```
+make war-geofence
+```
+... or `make deb-geofence` to build a Debian package.
 
-## Building
 
-GeoServer uses [Apache Maven](https://maven.apache.org/) for a build system. To 
-build the application run maven from the ```src``` directory.
+## GeoFence
 
-    mvn clean install
+See [the documentation](../docs/setup/tomcat.md#note-for-geofence-users).
 
-See the [developer guide](https://docs.geoserver.org/latest/en/developer/) 
-for more details.
+## Authentication
 
-## Bugs
+geOrchestra's GeoServer runs behind a proxy which handles user authentication
+for on behalf of all geOrchestra back-end services (GeoServer, GeoNetwork, console, etc).
+Once authenticated, every proxied request contains a per-application configurable
+set of request headers with pre-authenticated user credentials.
 
-GeoServer uses [JIRA](https://osgeo-org.atlassian.net/projects/GEOS), hosted by 
-[Atlassian](https://www.atlassian.com/), for issue tracking.
+GeoServer expects the standard `sec-username` and `sec-roles` headers, with
+the pre-authenticated username and list of roles respectively.
 
-<a id="mailing-lists"></a> <!-- to retain the existing anchor tag -->
-## Community support
+These headers will be picked up by `org.geoserver.security.filter.GeoServerRequestHeaderAuthenticationFilter`.
 
-The [Community support page](https://geoserver.org/comm/) on the GeoServer web site provides
-access to the various channels of communication, as well as some indication of the [code of conduct](https://geoserver.org/comm/userlist-guidelines.html) when posting to the groups.
+When first starting a geOrchestra docker-compose cluster, this filter will be
+configured to use the above mentioned headers as established [this configuration
+file](https://github.com/georchestra/geoserver_minimal_datadir/blob/master/security/filter/proxy/config.xml)
+at the [georchestra/geoserver_minimal_datadir](https://github.com/georchestra/geoserver_minimal_datadir) repository.
 
-## Contributing
 
-Please read [the contribution guidelines](https://github.com/geoserver/geoserver/blob/main/CONTRIBUTING.md) before contributing pull requests to the GeoServer project.
-
-## More Information
-
-Visit the [website](https://geoserver.org/) or read the [docs](https://docs.geoserver.org/). 
 
