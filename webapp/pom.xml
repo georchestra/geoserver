@@ -1047,7 +1047,17 @@
           </dependency>
           <dependency>
             <groupId>org.geoserver.extension</groupId>
-            <artifactId>gs-excel</artifactId>
+            <artifactId>gs-excel-core</artifactId>
+            <version>${gs.version}</version>
+          </dependency>
+          <dependency>
+            <groupId>org.geoserver.extension</groupId>
+            <artifactId>gs-excel-wfs</artifactId>
+            <version>${gs.version}</version>
+          </dependency>
+          <dependency>
+            <groupId>org.geoserver.extension</groupId>
+            <artifactId>gs-excel-wps</artifactId>
             <version>${gs.version}</version>
           </dependency>
           <dependency>
