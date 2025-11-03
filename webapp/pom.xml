@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.georchestra</groupId>
     <artifactId>geoserver-root</artifactId>
-    <version>2.27.1-georchestra</version>
+    <version>2.28.0-georchestra</version>
   </parent>
   <artifactId>geoserver-webapp</artifactId>
   <packaging>war</packaging>

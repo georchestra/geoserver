@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.georchestra</groupId>
   <artifactId>geoserver-root</artifactId>
-  <version>2.27.1-georchestra</version>
+  <version>2.28.0-georchestra</version>
   <packaging>pom</packaging>
   <name>GeoServer 2.x root module</name>
   <properties>
