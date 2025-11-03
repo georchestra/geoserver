@@ -46,13 +46,13 @@ For this example the project will be called "hello_wps".
        <groupId>org.geoserver</groupId>  
        <artifactId>hello_wps</artifactId>
        <packaging>jar</packaging>
-       <version>2.28-SNAPSHOT</version>
+       <version>2.28.0</version>
        <name>hello_wps</name>
        
        <properties>
          <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
          <gt.version>34-SNAPSHOT</gt.version>  <!-- change to GeoTools version -->
-         <gs.version>2.28-SNAPSHOT</gs.version>  <!-- change to GeoServer version -->
+         <gs.version>2.28.0</gs.version>  <!-- change to GeoServer version -->
        </properties>
 
        <dependencyManagement>
