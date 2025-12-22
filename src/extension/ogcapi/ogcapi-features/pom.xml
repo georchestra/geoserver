@@ -15,7 +15,7 @@
 
   <groupId>org.geoserver.extension</groupId>
   <artifactId>gs-ogcapi-features</artifactId>
-  <version>2.28.0-georchestra</version>
+  <version>2.27.4-georchestra</version>
 
   <dependencies>
     <dependency>
