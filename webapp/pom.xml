@@ -1194,8 +1194,12 @@
                       <condition property="project.packageVersion"
                         value="${gs.version}.${maven.build.timestamp}~${build.commit.id.abbrev}"
                         else="99.master.${maven.build.timestamp}~${build.commit.id.abbrev}">
-                      <matches string="${build.branch}" pattern="\d\.\d+\.\d-.*$" />
+                        <!--   matches somthing like  2.27.0-georchestra* or stable -->
+                      <matches string="${build.branch}" pattern="(\d\.\d+\.\d-.*$|[stable])" />
                     </condition>
+                      <!-- Allow to test the output of this plugin-->
+                      <!-- Add this here <echo message="project.packageVersion = ${project.packageVersion}" />-->
+                      <!-- And execute this command (may need mvn install once before) mvn antrun:run@set-project-packageversion -PdebianPackage -->
                   </target>
                 </configuration>
               </execution>
