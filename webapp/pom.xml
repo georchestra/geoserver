@@ -1183,23 +1183,6 @@
             <version>1.7</version>
             <executions>
               <execution>
-                <id>set-project-packageversion</id>
-                <phase>package</phase>
-                <goals>
-                  <goal>run</goal>
-                </goals>
-                <configuration>
-                  <exportAntProperties>true</exportAntProperties>
-                  <target>
-                      <condition property="project.packageVersion"
-                        value="${build.closest.tag.name}.${maven.build.timestamp}~${build.commit.id.abbrev}"
-                        else="99.master.${maven.build.timestamp}~${build.commit.id.abbrev}">
-                      <matches string="${build.branch}" pattern="\d\.\d+\.\d-.*$" />
-                    </condition>
-                  </target>
-                </configuration>
-              </execution>
-              <execution>
                 <id>remove-useless-directories</id>
                 <phase>package</phase>
                 <configuration>
@@ -1242,7 +1225,7 @@
             <configuration>
               <packageName>${packageName}</packageName>
               <packageDescription>geOrchestra GeoServer</packageDescription>
-              <packageVersion>${project.packageVersion}</packageVersion>
+              <packageVersion>${gs.version}.${maven.build.timestamp}~${build.commit.id.abbrev}</packageVersion>
               <packageDependencies>
                 <packageDependency>debconf</packageDependency>
               </packageDependencies>
