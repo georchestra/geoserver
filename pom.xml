@@ -3,13 +3,13 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.georchestra</groupId>
   <artifactId>geoserver-root</artifactId>
-  <version>2.28.2-georchestra</version>
+  <version>3.0-SNAPSHOT-georchestra</version>
   <packaging>pom</packaging>
   <name>GeoServer 2.x root module</name>
   <properties>
     <skipTests>true</skipTests>
-    <gs.version>2.28.2</gs.version>
-    <gt.version>34.2</gt.version>
+    <gs.version>3.0-SNAPSHOT</gs.version>
+    <gt.version>35-SNAPSHOT</gt.version>
     <geofence.version>3.8.2</geofence.version>
     <jetty.version>10.0.25</jetty.version>
     <marlin.version>0.9.4.8</marlin.version>
