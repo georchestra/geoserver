@@ -53,6 +53,7 @@
           <div id="localeSwitcher" class="gs-locale-selector" role="group" aria-label="Language">
             <select wicket:id="localeSwitcher"></select>
           </div>
+
           <div class="gs-user-avatar-dropdown" role="group" aria-label="User menu">
             <div class="gs-user-avatar" id="user-avatar-trigger" tabindex="0" role="button" aria-haspopup="true" aria-expanded="false" aria-controls="user-dropdown-panel">
               <span class="gs-user-initials"></span>
@@ -64,21 +65,7 @@
             </div>
             <div class="gs-user-dropdown-panel" id="user-dropdown-panel" role="menu" aria-labelledby="user-avatar-trigger" hidden>
 
-              <div class="gs-user-dropdown-login">
-                <div wicket:id="loginforms">
-                  <form wicket:id="loginform" method="post" action="../j_spring_security_check" class="gs-login-form">
-                    <div wicket:id="login.include" class="authentication-form"></div>
-                    <button type="submit" class="button primary">
-                      <span wicket:id="link.label"></span>
-                    </button>
-                  </form>
-                </div>
-              </div>
               <div class="gs-user-dropdown-info">
-                <div wicket:id="loggedinasform" class="username">
-                  <wicket:message key="loggedInAs">Logged in as</wicket:message>
-                  <span wicket:id="loggedInUsername" class="username-text"></span>.
-                </div>
                 <ul>
                   <!-- Switch component -->
                   <div class="gs-switch" role="group" aria-label="Theme">
@@ -88,22 +75,6 @@
                       <span class="gs-switch-text">Dark theme</span>
                     </label>
                   </div>
-                  <!-- 2. Separator -->
-                  <hr />
-                  <!-- 3. External links
-                  <div wicket:id="loginExternalLinks" class="gs-login-external-links">
-                    <a wicket:id="loginform">
-                      <div><img src="#" wicket:id="link.icon" alt=""/><span wicket:id="link.label"></span></div>
-                    </a>
-                  </div> -->
-                  <!-- 4. Separator -->
-                  <hr />
-                  <!-- 5. Buttons: logout when logged in
-                  <li>
-                    <a wicket:id="logoutform" role="menuitem">
-                      <img src="#" wicket:id="link.icon" alt=""/><span wicket:id="link.label"></span>
-                    </a>
-                  </li>-->
                 </ul>
               </div>
             </div>
