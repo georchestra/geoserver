@@ -9,6 +9,9 @@
       <link rel="shortcut icon" href="/favicon.ico"/>
   </wicket:head>
   <body>
+    <div id="go_head">
+        <geor-header wicket:id="georchestraWebComponent"></geor-header>
+    </div>
     <div id="header" class="gs-header">
       <div class="gs-header-bar">
         <div class="gs-header-left">
@@ -60,6 +63,7 @@
               </span>
             </div>
             <div class="gs-user-dropdown-panel" id="user-dropdown-panel" role="menu" aria-labelledby="user-avatar-trigger" hidden>
+
               <div class="gs-user-dropdown-login">
                 <div wicket:id="loginforms">
                   <form wicket:id="loginform" method="post" action="../j_spring_security_check" class="gs-login-form">
@@ -86,20 +90,20 @@
                   </div>
                   <!-- 2. Separator -->
                   <hr />
-                  <!-- 3. External links -->
+                  <!-- 3. External links
                   <div wicket:id="loginExternalLinks" class="gs-login-external-links">
                     <a wicket:id="loginform">
                       <div><img src="#" wicket:id="link.icon" alt=""/><span wicket:id="link.label"></span></div>
                     </a>
-                  </div>
+                  </div> -->
                   <!-- 4. Separator -->
                   <hr />
-                  <!-- 5. Buttons: logout when logged in -->
+                  <!-- 5. Buttons: logout when logged in
                   <li>
                     <a wicket:id="logoutform" role="menuitem">
                       <img src="#" wicket:id="link.icon" alt=""/><span wicket:id="link.label"></span>
                     </a>
-                  </li>
+                  </li>-->
                 </ul>
               </div>
             </div>
@@ -109,9 +113,6 @@
       <div class="gs-header-search-container"></div>
       <div class="gs-header-backdrop" id="header-backdrop" aria-hidden="true"></div>
     </div><!-- /#header -->
-    <div id="go_head">
-      <geor-header wicket:id="georchestraWebComponent"></geor-header>
-    </div>
     <div id="main">
     <!-- sidebar -->
     <aside class="gs-sidebar" wicket:id="sidebar"></aside>
