@@ -16,7 +16,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.Component;
 import org.apache.wicket.Page;
@@ -48,8 +47,6 @@ import org.apache.wicket.request.mapper.parameter.INamedParameters.Type;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.request.resource.PackageResourceReference;
 import org.apache.wicket.resource.JQueryResourceReference;
-import org.apache.wicket.util.string.Strings;
-import org.georchestra.GeorchestraHeaderWebComponent;
 import org.geoserver.catalog.Catalog;
 import org.geoserver.config.GeoServer;
 import org.geoserver.ows.URLMangler;
@@ -111,18 +108,9 @@ public class GeoServerBasePage extends WebPage implements IAjaxIndicatorAware {
     }
 
     protected void commonBaseInit() {
-        add(new GeorchestraHeaderWebComponent("georchestraWebComponent"));
         // lookup for a pluggable favicon
         PackageResourceReference faviconReference = null;
         List<HeaderContribution> cssContribs = getGeoServerApplication().getBeansOfType(HeaderContribution.class);
-        String georchestraStylesheet =
-                getGeoServerApplication().getBean("georchestraStylesheet").toString();
-        if (StringUtils.isNotEmpty(georchestraStylesheet)) {
-            HeaderContribution georchestraStylesheetContribution = new HeaderContribution();
-            georchestraStylesheetContribution.setScope(this.getClass());
-            georchestraStylesheetContribution.setCSSFilename(georchestraStylesheet);
-            cssContribs.add(georchestraStylesheetContribution);
-        }
         for (HeaderContribution csscontrib : cssContribs) {
             try {
                 if (csscontrib.appliesTo(this)) {
@@ -135,16 +123,6 @@ public class GeoServerBasePage extends WebPage implements IAjaxIndicatorAware {
                 LOGGER.log(Level.WARNING, "Problem adding header contribution", t);
             }
         }
-
-        // favicon
-        /* Overriding default geoserver behavior and implement georchestra root favicon
-         *  directly in html to allow custom scripts overriding more easily
-
-        if (faviconReference == null) {
-            faviconReference = new PackageResourceReference(GeoServerBasePage.class, "favicon.ico");
-        }
-        String faviconUrl = RequestCycle.get().urlFor(faviconReference, null).toString();
-        add(new ExternalLink("faviconLink", faviconUrl, null));*/
 
         // page title
         add(new Label("pageTitle", new LoadableDetachableModel<String>() {
@@ -535,13 +513,6 @@ public class GeoServerBasePage extends WebPage implements IAjaxIndicatorAware {
         // Due to CSPontent-security-policy, JS must be rendered by Wicket.  This inits the textboxes
         // for placeholders.
         response.render(OnDomReadyHeaderItem.forScript("$('input, textarea').placeholder();"));
-        response.render(JavaScriptHeaderItem.forUrl(
-                getGeoServerApplication().getBean("georchestraHeaderScript").toString()));
-
-        String gcss = getGeoServerApplication().getBean("georchestraStylesheet").toString();
-        if (!Strings.isEmpty(gcss)) {
-            response.render(CssReferenceHeaderItem.forUrl(gcss));
-        }
 
         List<HeaderContribution> cssContribs = getGeoServerApplication().getBeansOfType(HeaderContribution.class);
         for (HeaderContribution csscontrib : cssContribs) {
