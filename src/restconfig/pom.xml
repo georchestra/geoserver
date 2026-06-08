@@ -8,6 +8,7 @@
   </parent>
 
   <artifactId>gs-restconfig</artifactId>
+  <version>2.28.4-georchestra</version>
 
   <dependencies>
     <dependency>
@@ -21,7 +22,7 @@
     <dependency>
       <groupId>org.geoserver</groupId>
       <artifactId>gs-rest</artifactId>
-      <version>${project.version}</version>
+      <version>${project.parent.version}</version>
     </dependency>
     <dependency>
       <groupId>org.geotools</groupId>
@@ -36,7 +37,7 @@
     <dependency>
       <groupId>org.geoserver</groupId>
       <artifactId>gs-main</artifactId>
-      <version>${project.version}</version>
+      <version>${project.parent.version}</version>
       <classifier>tests</classifier>
       <scope>test</scope>
     </dependency>
