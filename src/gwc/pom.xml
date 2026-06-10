@@ -15,7 +15,7 @@
 
   <groupId>org.geoserver</groupId>
   <artifactId>gs-gwc</artifactId>
-  <version>3.0-SNAPSHOT-georchestra</version>
+  <version>3.0.0-SNAPSHOT-georchestra</version>
   <packaging>jar</packaging>
   <name>GeoWebCache (GWC) Module</name>
 
