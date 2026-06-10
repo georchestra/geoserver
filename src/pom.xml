@@ -94,6 +94,7 @@
     <!-- ================================ -->
     <!-- Project version management       -->
     <!-- ================================ -->
+    <gs.version>3.0.0-SNAPSHOT</gs.version>
     <gt.version>35-SNAPSHOT</gt.version>
     <gwc.version>2.0-SNAPSHOT</gwc.version>
     <spring.version>7.0.7</spring.version>
@@ -257,23 +258,23 @@
       <dependency>
         <groupId>org.geoserver</groupId>
         <artifactId>gs-platform</artifactId>
-        <version>${project.version}</version>
+        <version>${gs.version}</version>
       </dependency>
       <dependency>
         <groupId>org.geoserver</groupId>
         <artifactId>gs-platform</artifactId>
-        <version>${project.version}</version>
+        <version>${gs.version}</version>
         <classifier>tests</classifier>
       </dependency>
       <dependency>
         <groupId>org.geoserver</groupId>
         <artifactId>gs-ows</artifactId>
-        <version>${project.version}</version>
+        <version>${gs.version}</version>
       </dependency>
       <dependency>
         <groupId>org.geoserver</groupId>
         <artifactId>gs-ows</artifactId>
-        <version>${project.version}</version>
+        <version>${gs.version}</version>
         <classifier>tests</classifier>
       </dependency>
       <dependency>
