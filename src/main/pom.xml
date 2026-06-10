@@ -29,6 +29,7 @@
     <dependency>
       <groupId>org.geoserver</groupId>
       <artifactId>gs-ows</artifactId>
+      <version>${project.parent.version}</version>
     </dependency>
     <dependency>
       <groupId>com.thetransactioncompany</groupId>
@@ -202,6 +203,7 @@
     <dependency>
       <groupId>org.geoserver</groupId>
       <artifactId>gs-platform</artifactId>
+      <version>${project.parent.version}</version>
     </dependency>
 
     <dependency>
@@ -343,12 +345,14 @@
         <dependency>
           <groupId>org.geoserver</groupId>
           <artifactId>gs-ows</artifactId>
+          <version>${project.parent.version}</version>
           <classifier>tests</classifier>
           <scope>test</scope>
         </dependency>
         <dependency>
           <groupId>org.geoserver</groupId>
           <artifactId>gs-platform</artifactId>
+          <version>${project.parent.version}</version>
           <classifier>tests</classifier>
           <scope>test</scope>
         </dependency>
