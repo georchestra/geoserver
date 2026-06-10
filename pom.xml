@@ -5,7 +5,7 @@
   <artifactId>geoserver-root</artifactId>
   <version>3.0.0-SNAPSHOT-georchestra</version>
   <packaging>pom</packaging>
-  <name>GeoServer 2.x root module</name>
+  <name>GeoServer root module</name>
   <properties>
     <skipTests>true</skipTests>
     <gs.version>3.0.0-SNAPSHOT</gs.version>
