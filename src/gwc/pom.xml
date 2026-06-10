@@ -28,10 +28,12 @@
       <!-- needed to implement TransactionListener extension point in truncate cache upon WFS transactions -->
       <groupId>org.geoserver</groupId>
       <artifactId>gs-wfs-core</artifactId>
+      <version>${project.parent.version}</version>
     </dependency>
     <dependency>
       <groupId>org.geoserver</groupId>
       <artifactId>gs-wms-core</artifactId>
+      <version>${project.parent.version}</version>
     </dependency>
     <dependency>
       <groupId>com.google.guava</groupId>
@@ -109,7 +111,7 @@
     <dependency>
       <groupId>org.geoserver</groupId>
       <artifactId>gs-wms1_1</artifactId>
-      <version>${project.version}</version>
+      <version>${project.parent.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -201,7 +203,7 @@
         <dependency>
           <groupId>org.geoserver</groupId>
           <artifactId>gs-wms-core</artifactId>
-          <version>${project.version}</version>
+          <version>${project.parent.version}</version>
           <classifier>tests</classifier>
           <scope>test</scope>
         </dependency>
