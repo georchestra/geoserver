@@ -81,12 +81,12 @@
       <version>${gs.version}</version>
     </dependency>
   <dependency>
-      <groupId>org.geoserver</groupId>
+      <groupId>org.geoserver.extension</groupId>
       <artifactId>gs-wcs1_0</artifactId>
       <version>${gs.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.geoserver</groupId>
+      <groupId>org.geoserver.extension</groupId>
       <artifactId>gs-wcs1_1</artifactId>
       <version>${gs.version}</version>
     </dependency>
@@ -96,7 +96,7 @@
       <version>${gs.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.geoserver</groupId>
+      <groupId>org.geoserver.extension</groupId>
       <artifactId>gs-kml</artifactId>
       <version>${gs.version}</version>
     </dependency>
