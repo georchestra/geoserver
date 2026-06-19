@@ -46,7 +46,7 @@ For this example the project will be called "hello_wps".
        <groupId>org.geoserver</groupId>  
        <artifactId>hello_wps</artifactId>
        <packaging>jar</packaging>
-       <version>2.28.2</version>
+       <version>3.0-SNAPSHOT</version>
        <name>hello_wps</name>
        
        <properties>
