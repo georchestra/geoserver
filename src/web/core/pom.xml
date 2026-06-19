@@ -53,7 +53,7 @@
     <dependency>
       <groupId>org.geoserver</groupId>
       <artifactId>gs-theme</artifactId>
-      <version>${project.version}</version>
+      <version>${project.parent.version}</version>
     </dependency>
     <dependency>
       <groupId>org.geoserver</groupId>
