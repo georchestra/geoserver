@@ -12,7 +12,6 @@
   <properties>
     <packageName>georchestra-geoserver</packageName>
     <context.name>geoserver</context.name>
-    <gs.snapshot.version>2.20-SNAPSHOT</gs.snapshot.version>
   </properties>
   <dependencies>
     <dependency>
