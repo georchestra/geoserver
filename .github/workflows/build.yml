@@ -28,6 +28,9 @@ jobs:
         java-version: '11'
         distribution: 'adopt'
         cache: 'maven'
+        server-id: geOrchestra-artifactory
+        server-username: ARTIFACTORY_USERNAME_REF
+        server-password: ARTIFACTORY_TOKEN_REF
 
     - name: "Installing & checking formatting"
       run: mvn --no-transfer-progress -B -P-all,geoserver,geofence -Dfmt.skip=true install -Dadditionalparam=-Xdoclint:none -DskipTests
@@ -76,6 +79,14 @@ jobs:
       run: |
         find .m2/repository -name "*SNAPSHOT*" -type d | xargs rm -rf {}
 
+    - name: "Publish to artifactory"
+      if: github.actor != 'dependabot[bot]' && github.event_name != 'pull_request'
+      run: mvn deploy --no-transfer-progress -DskipTests
+      continue-on-error: true
+      env:
+        ARTIFACTORY_TOKEN_REF: ${{ secrets.ARTIFACTORY_TOKEN }}
+        ARTIFACTORY_USERNAME_REF: ${{ secrets.ARTIFACTORY_USERNAME }}
+      
     - name: "Update Docker Hub Description"
       if: github.ref == 'refs/heads/main' && github.repository == 'georchestra/geoserver' && github.actor != 'dependabot[bot]' && github.event_name != 'pull_request'
       uses: peter-evans/dockerhub-description@v4
