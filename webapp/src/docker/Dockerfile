@@ -58,3 +58,13 @@ ${JAVA_OPTIONS} \
 
 ARG GS_VERSION
 ENV GS_VERSION=$GS_VERSION
+
+# OCI image labels (https://github.com/opencontainers/image-spec/blob/main/annotations.md)
+LABEL org.opencontainers.image.title="geOrchestra GeoServer" \
+      org.opencontainers.image.description="GeoServer webapp customized for geOrchestra" \
+      org.opencontainers.image.source="https://github.com/georchestra/geoserver" \
+      org.opencontainers.image.url="https://github.com/georchestra/geoserver" \
+      org.opencontainers.image.documentation="https://docs.georchestra.org/" \
+      org.opencontainers.image.vendor="geOrchestra" \
+      org.opencontainers.image.licenses="GPL-2.0" \
+      org.opencontainers.image.version="$GS_VERSION"
