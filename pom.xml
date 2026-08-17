@@ -8,8 +8,8 @@
   <name>GeoServer 2.x root module</name>
   <properties>
     <skipTests>true</skipTests>
-    <gs.version>2.27.4</gs.version>
-    <gt.version>33.3</gt.version>
+    <gs.version>2.27.6</gs.version>
+    <gt.version>33.6</gt.version>
     <geofence.version>3.8.0</geofence.version>
     <jetty.version>9.4.57.v20241219</jetty.version>
     <marlin.version>0.9.4.8</marlin.version>

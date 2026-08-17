@@ -81,9 +81,9 @@
   </distributionManagement>
 
   <properties>
-    <gs.version>2.27.4</gs.version>
-    <gt.version>33.4</gt.version>
-    <gwc.version>1.27.4</gwc.version>
+    <gs.version>2.27.6</gs.version>
+    <gt.version>33.6</gt.version>
+    <gwc.version>1.27.6</gwc.version>
     <jts.version>1.20.0</jts.version>
     <spring.version>5.3.39</spring.version>
     <spring.security.version>5.8.16</spring.security.version>
