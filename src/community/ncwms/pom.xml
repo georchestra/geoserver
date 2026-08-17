@@ -8,7 +8,7 @@
   <parent>
     <groupId>org.geoserver</groupId>
     <artifactId>community</artifactId>
-    <version>3.0.0</version>
+    <version>3.0.1</version>
   </parent>
 
   <groupId>org.geoserver.community</groupId>
@@ -44,7 +44,7 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>jfree</groupId>
+      <groupId>org.jfree</groupId>
       <artifactId>jfreechart</artifactId>
     </dependency>
     <dependency>

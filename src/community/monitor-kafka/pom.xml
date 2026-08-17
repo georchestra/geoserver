@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.geoserver</groupId>
     <artifactId>community</artifactId>
-    <version>3.0.0</version>
+    <version>3.0.1</version>
   </parent>
 
   <groupId>org.geoserver.community</groupId>
@@ -62,7 +62,7 @@
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-core</artifactId>
-      <version>5.14.2</version>
+      <version>5.23.0</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -79,6 +79,7 @@
       <plugin>
         <groupId>org.apache.avro</groupId>
         <artifactId>avro-maven-plugin</artifactId>
+        <version>1.12.1</version>
         <executions>
           <execution>
             <phase>generate-sources</phase>

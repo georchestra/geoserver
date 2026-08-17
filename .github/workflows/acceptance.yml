@@ -20,7 +20,7 @@ jobs:
     name: Build GeoServer WAR
     steps:
       - name: Checkout repository (shallow clone)
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 1
 
@@ -30,11 +30,11 @@ jobs:
           distribution: 'temurin'
           java-version: '17'        # only build the oldest Java version, but below run against the matrix of LTS versions
       - name: Set up Maven
-        uses: stCarolas/setup-maven@v5
+        uses: stCarolas/setup-maven@v5.1
         with:
-          maven-version: 3.9.8
+          maven-version: 3.9.16
       - name: Maven repository caching
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: ~/.m2/repository
           key: gs-${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
@@ -63,7 +63,7 @@ jobs:
        java-version: [17, 21, 25]
     steps:
       - name: Checkout repository (shallow clone)
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 1
 
@@ -74,7 +74,7 @@ jobs:
           path: build/acceptance/geoserver/
 
       - name: Setup Python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@v7
         with:
           python-version: "3.12"
 
