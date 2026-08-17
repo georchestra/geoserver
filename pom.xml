@@ -16,7 +16,7 @@
     <server>generic</server>
     <!-- overrides the versions provided by spring-boot in the geOrchestra root pom -->
     <spring.version>7.0.8</spring.version>
-    <spring.security.version>7.0.5</spring.security.version>
+    <spring.security.version>7.0.6</spring.security.version>
     <hibernate.version>7.1.4.Final</hibernate.version>
 <!--
     <commons-beanutils.version>1.8.0</commons-beanutils.version>
