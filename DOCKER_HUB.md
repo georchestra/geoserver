@@ -8,10 +8,10 @@
 
 # Featured tags
 
-- `latest`, `2.28.4-georchestra` 
+- `latest`, `2.28.5-georchestra` 
 - `25.0.x` 
 - `24.0.x`
-- `geofence`, `2.28.4-georchestra-geofence`, 
+- `geofence`, `2.28.5-georchestra-geofence`, 
 - `25.0.x-geofence` 
 - `24.0.x-geofence`
 
