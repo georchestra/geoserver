@@ -8,8 +8,8 @@
   <name>GeoServer root module</name>
   <properties>
     <skipTests>true</skipTests>
-    <gs.version>3.0.0</gs.version>
-    <gt.version>35.0</gt.version>
+    <gs.version>3.0.1</gs.version>
+    <gt.version>35.1</gt.version>
     <jetty.version>12.1.10</jetty.version>
     <marlin.version>0.9.4.8</marlin.version>
     <packageDatadirScmVersion>master</packageDatadirScmVersion>
