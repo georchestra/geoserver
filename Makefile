@@ -1,7 +1,7 @@
 GEOSERVER_EXTENSION_PROFILES=wps-download,app-schema,control-flow,csw,libjpeg-turbo,monitor,pyramid,wps,css,jp2k,authkey,mapstore2,mbstyle,web-resource,sldservice,geopkg-output,wfs-freemarker,ogcapi
 
 docker-pull-jetty:
-	echo "docker pull jetty:9-jre11"
+	echo "docker pull jetty:9.4-jre17"
 
 docker-build: docker-pull-jetty
 	LANG=C mvn clean install -DskipTests -Dfmt.skip=true -P${GEOSERVER_EXTENSION_PROFILES}; \
