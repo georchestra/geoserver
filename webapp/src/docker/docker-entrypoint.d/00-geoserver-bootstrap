@@ -10,9 +10,29 @@ else
     cp -Rax /var/local/geoserver.orig/.git /mnt/geoserver_datadir/
     cp -Rax /var/local/geoserver.orig/.gitignore /mnt/geoserver_datadir/
 
-    echo 'Change LDAP url according to docker setup'
-    sed -i 's:<serverURL>ldap\://localhost\:389</serverURL>:<serverURL>ldap\://ldap\:389</serverURL>:g' /mnt/geoserver_datadir/security/role/my_ldap/config.xml
-    sed -i 's:<serverURL>ldap\://localhost\:389</serverURL>:<serverURL>ldap\://ldap\:389</serverURL>:g' /mnt/geoserver_datadir/security/usergroup/my_ldap/config.xml
+    echo 'Change LDAP settings according to docker setup'
+    LDAPHOST="${LDAPHOST:-ldap}"
+    LDAPPORT="${LDAPPORT:-389}"
+    LDAPSCHEME="${LDAPSCHEME:-ldap}"
+    LDAPBASEDN="${LDAPBASEDN:-dc=georchestra,dc=org}"
+    LDAPADMINDN="${LDAPADMINDN:-cn=admin,${LDAPBASEDN}}"
+    LDAPADMINPASSWORD="${LDAPADMINPASSWORD:-secret}"
+    LDAPUSERSRDN="${LDAPUSERSRDN:-ou=users}"
+    LDAPROLESRDN="${LDAPROLESRDN:-ou=roles}"
+    LDAPORGSRDN="${LDAPORGSRDN:-ou=orgs}"
+
+    for f in /mnt/geoserver_datadir/security/role/my_ldap/config.xml /mnt/geoserver_datadir/security/usergroup/my_ldap/config.xml
+    do
+        sed -i "s:<serverURL>ldap\://localhost\:389</serverURL>:<serverURL>${LDAPSCHEME}\://${LDAPHOST}\:${LDAPPORT}</serverURL>:g" "$f"
+        sed -i "s:<groupSearchFilter>member=uid={0},ou=users,dc=georchestra,dc=org</groupSearchFilter>:<groupSearchFilter>member=uid={0},${LDAPUSERSRDN},${LDAPBASEDN}</groupSearchFilter>:g" "$f"
+        sed -i "s:<user>cn=admin,dc=georchestra,dc=org</user>:<user>${LDAPADMINDN}</user>:g" "$f"
+        sed -i "s:<password>secret</password>:<password>${LDAPADMINPASSWORD}</password>:g" "$f"
+    done
+
+    sed -i "s:<groupSearchBase>ou=roles,dc=georchestra,dc=org</groupSearchBase>:<groupSearchBase>${LDAPROLESRDN},${LDAPBASEDN}</groupSearchBase>:g" /mnt/geoserver_datadir/security/role/my_ldap/config.xml
+
+    sed -i "s:<groupSearchBase>ou=orgs,dc=georchestra,dc=org</groupSearchBase>:<groupSearchBase>${LDAPORGSRDN},${LDAPBASEDN}</groupSearchBase>:g" /mnt/geoserver_datadir/security/usergroup/my_ldap/config.xml
+    sed -i "s:<userSearchBase>ou=users,dc=georchestra,dc=org</userSearchBase>:<userSearchBase>${LDAPUSERSRDN},${LDAPBASEDN}</userSearchBase>:g" /mnt/geoserver_datadir/security/usergroup/my_ldap/config.xml
 
     echo 'Change log config according to docker setup'
     sed -i 's:stdOutLogging>false:stdOutLogging>true:g' /mnt/geoserver_datadir/logging.xml
