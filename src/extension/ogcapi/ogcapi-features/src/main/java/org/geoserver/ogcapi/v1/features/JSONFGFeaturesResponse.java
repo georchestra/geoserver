@@ -80,6 +80,7 @@ public class JSONFGFeaturesResponse extends RFCGeoJSONFeaturesResponse {
     }
 
     private String getCRSURI(CoordinateReferenceSystem crs) {
+        if (crs == null) return null;
         try {
             // prefer EPSG authority if possible, more commonly understood
             String epsgIdentifier = CRS.lookupIdentifier(Citations.EPSG, crs, false);

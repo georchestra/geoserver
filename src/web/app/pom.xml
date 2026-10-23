@@ -9,7 +9,7 @@
   <parent>
     <groupId>org.geoserver</groupId>
     <artifactId>web</artifactId>
-    <version>2.28.5</version>
+    <version>2.28.6</version>
   </parent>
   <groupId>org.geoserver.web</groupId>
   <artifactId>gs-web-app</artifactId>
@@ -373,7 +373,7 @@
         <dependency>
           <groupId>org.geoserver.community</groupId>
           <artifactId>gs-graticule</artifactId>
-          <version>2.28.5</version>
+          <version>2.28.6</version>
         </dependency>
       </dependencies>
     </profile>
@@ -1273,16 +1273,6 @@
       </dependencies>
     </profile>
     <profile>
-      <id>gwc-sqlite</id>
-      <dependencies>
-        <dependency>
-          <groupId>org.geoserver.community</groupId>
-          <artifactId>gs-gwc-sqlite</artifactId>
-          <version>${project.version}</version>
-        </dependency>
-      </dependencies>
-    </profile>
-    <profile>
       <id>keycloak</id>
       <dependencies>
         <dependency>
@@ -1666,11 +1656,6 @@
         <dependency>
           <groupId>org.geoserver.community</groupId>
           <artifactId>gs-web-processes</artifactId>
-          <version>${project.version}</version>
-        </dependency>
-        <dependency>
-          <groupId>org.geoserver.community</groupId>
-          <artifactId>gs-web-3d-geovolumes</artifactId>
           <version>${project.version}</version>
         </dependency>
       </dependencies>

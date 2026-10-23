@@ -14,6 +14,12 @@ The JWT Headers module covers three main use cases:
 Configuration Options
 ---------------------
 
+Create the filter from **Security > Authentication > Authentication Filters > Add new > JWT Headers**. This is a new filter set up for bearer tokens in the ``Authorization`` header, with the roles read from the same token:
+
+.. figure:: images/jwt-headers-filter-panel.png
+
+   JWT Headers filter panel for a new filter, validating the token signature against a JSON Web Key Set with an accepted issuer, and taking the roles from the same validated token
+
 User Name Options
 ^^^^^^^^^^^^^^^^^
 
@@ -32,6 +38,11 @@ User Name Options
 	   * JWT -  The header is a JWT (base64) string.  Use "JSON path" for where the user name is in the JWT claims. 
    * - JSON path for the User Name
      - If the user name is in JSON or JWT format, this is the JSON path to the user's name.
+   * - Allow the header to log in the built-in "admin" account
+     - If unchecked, a request whose user name is ``admin`` is not authenticated by this filter. Unchecked for filters created in the web administration interface; filters created before this option existed, or through the REST API without it, keep allowing it.
+
+The built-in ``root`` account is never accepted from the header, whatever the configuration: it is the emergency account backed by the master password and cannot be represented by an external identity.
+
    
 If you are using `Apache's mod_auth_openidc  <https://github.com/OpenIDC/mod_auth_openidc>`_, then Apache will typically add:
 
@@ -91,6 +102,10 @@ You can use the standard role source options in GeoServer (`Request Header`, `Us
    * - JSON Path 
      - Path in the JSON object or JWT claims that contains the roles.  This should either be a simple string (single role) or a list of strings.
 
+
+When **Validate JWT (Access Token)** is enabled, the roles must come from the token that was validated: use ``Header Containing JWT`` with the same header as the user name, or take the roles from a Role Service or User Group Service. A roles header that is not the validated token, ``Header Containing JSON String`` and ``Request Header`` are refused when the filter is saved. A filter saved before this check keeps authenticating its users but takes no roles from such a header, and the GeoServer log reports it when the filter is loaded.
+
+If roles are deliberately carried by a separate header that a proxy in front of GeoServer always removes or overwrites on incoming requests, check **Trust a roles header that is not the validated token** to keep reading it.
 
 Using the example `OIDC_id_token_payload` (JSON) or `OIDC_access_token` (JWT) shown above, the claims are:
 
@@ -201,6 +216,8 @@ You can also extract roles from the Access Token in a similar manner - make sure
      - If checked, validate the Token's Signature
    * - JSON Web Key Set URL (jwks_uri)
      - URL for a JWK Set.  This is typically called `jwks_uri` in the OIDC metadata configuration.  This will be downloaded and used to check the JWT's signature.  This should always be checked to ensure that the JWT has not been modified.
+   * - Accepted issuers (iss)
+     - The ``iss`` values accepted, separated by commas. This is typically called ``issuer`` in the OIDC metadata configuration. When set, it is checked whenever the token is validated. Required when the signature is validated, since a signing key set can be shared by several issuers (for example the tenants of a multi-tenant identity provider).
    * - Validate JWT (Access Token) Against Endpoint
      - If checked, validate the access token against an IDP's token verification URL.
    * - URL (userinfo_endpoint)
@@ -213,7 +230,27 @@ You can also extract roles from the Access Token in a similar manner - make sure
      - The name of the claim the audience is in (`aud`, `azp`, or `appid` claim) the Access Token.
    * - Required Claim Value
      - The value this claim must be (if the claim is a list of string, then it must contain this value).  
-	 
-	 
-	 
+   * - Trust a roles header that is not the validated token
+     - See the role source options above. Only check it when a proxy always removes or overwrites that header.
 
+A filter created in the web administration interface starts out validating the token, its signature and its expiry, and only accepts the external roles listed in the role converter. Filters created through the REST API get only the settings they are sent.
+
+With validation enabled the filter cannot be saved unless the user name format is JWT and the signature or the endpoint check is configured, with a valid URL and, for the signature, at least one accepted issuer. Saving also checks that a role source is selected and that the selected role or user/group service exists. Filters saved before these checks keep their stored settings; the GeoServer log reports, when the filter is loaded, one that validates without a signature or endpoint check, one that validates signatures without accepted issuers, and one whose roles are not taken from the validated token.
+
+To accept only tokens issued for GeoServer, and not tokens the same identity provider issued to other applications, also validate the audience.
+
+Troubleshooting
+---------------
+
+The module includes a ``JWT_HEADERS_LOGGING`` logging profile, installed in the data directory on startup. It quiets most GeoServer logging and turns on detailed logging for the JWT Headers filter.
+
+Each filter also has a **Log sensitive information (do not use in production)** option. When checked, the filter logs the decoded header and claims of the incoming tokens, the full reason a token is rejected, and the claims the user name and roles are taken from. Without it the filter only logs the reason a request is rejected, the user name and the roles.
+
+This option puts personal data and token content in the logs, so only use it while setting things up, and clear the logs afterwards: the ``JWT_HEADERS_LOGGING`` profile writes to the GeoServer log, including its rolled ``geoserver-N.log`` files, and to the standard output, which may end up in container or aggregated logs. The token signature is never logged.
+
+To troubleshoot a JWT Headers filter:
+
+#. Navigate to :menuselection:`Settings --> Global` and select the logging profile ``JWT_HEADERS_LOGGING``.
+#. Navigate to :menuselection:`Security --> Authentication`, open the JWT Headers filter and check **Log sensitive information (do not use in production)**.
+#. Send a few requests and look at the GeoServer log.
+#. Uncheck the option, switch back to your usual logging profile and clear the logs, the rolled ones and any copy of the standard output included.

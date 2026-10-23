@@ -103,12 +103,24 @@ GeoServer Property Reference
      - x
      - x
      - x
+   * - GEOSERVER_REMEMBERME_KEY
+       
+       Shared key that signs remember-me cookies across a cluster. See :ref:`security_webadmin_rememberme`.
+     - x
+     - x
+     - x
    * - org.geoserver.web.csp.strict
        
        :ref:`csp_strict`, default true.
      - x
      -
      - 
+   * - org.geotools.renderer.style.maxRasterizationSize
+       
+       Size in pixels above which graphic fills and icons are painted as vectors (default 512). See :ref:`sld_reference_graphicfill`.
+     - x
+     -
+     -
    * - org.geoserver.catalog.loadingThreads
        
        Number of threads used to load catalogue (Default 4).
@@ -337,6 +349,12 @@ GeoServer Property Reference
      - x
      - x
      - x
+   * - GEOSERVER_TRUSTED_PROXIES
+       
+       Comma separated list of reverse proxy IP addresses or CIDR blocks. GeoServer reads the client address from the ``X-Forwarded-For`` header only for requests arriving from one of these proxies, otherwise it uses the direct connection address. The default is loopback only (``127.0.0.0/8``, ``::1``), so a reverse proxy on another host must be listed, otherwise every request appears to come from the proxy address.
+     - x
+     - x
+     - x
    * - org.geoserver.service.disabled
        
        :ref:`Layer service <data_webadmin_layers_services>` default comma separated list of disabled services.
@@ -451,6 +469,12 @@ GeoServer Property Reference
    * - GEOSERVER_ROOT_LOGIN_ENABLED
 
        :ref:`security_root`
+     - x
+     - x
+     - x
+   * - GEOSERVER_JDBC_EXTRA_PARAMETERS
+
+       Extra connection URL parameters accepted for JDBC user/group services, role services and authentication providers. GeoServer accepts only a known list of parameters for each driver. Format is ``driverClass:param1,param2;driverClass2:param3``, for example ``com.ibm.db2.jcc.DB2Driver:currentSchema``. Use it to allow a parameter, or a driver, that is not known. A legacy driver class name, such as ``org.hsqldb.jdbcDriver``, shares the parameters of its current name. Each parameter added this way is passed to the driver unchecked, so add only parameters that cannot read or write files or load classes.
      - x
      - x
      - x

@@ -40,6 +40,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 
 public class StoredQuery {
@@ -130,7 +131,7 @@ public class StoredQuery {
         DocumentBuilder db;
         try {
             db = dbf.newDocumentBuilder();
-            db.setEntityResolver(catalog.getResourcePool().getEntityResolver());
+            db.setEntityResolver(getEntityResolver());
         } catch (ParserConfigurationException e) {
             throw new IOException(e);
         }
@@ -254,6 +255,10 @@ public class StoredQuery {
 
             // parse
             Parser p = new Parser(new WFSConfiguration());
+            EntityResolver entityResolver = getEntityResolver();
+            if (entityResolver != null) {
+                p.setEntityResolver(entityResolver);
+            }
             // "inject" namespace mappings
             if (catalog != null) {
                 p.getNamespaces().add(new CatalogNamespaceSupport(catalog));
@@ -267,5 +272,14 @@ public class StoredQuery {
             }
         }
         return list;
+    }
+
+    /**
+     * Returns the entity resolver to use when parsing a stored query, or {@code null} when none is configured. A
+     * catalog-backed query uses the resolver from the catalog {@link org.geoserver.catalog.ResourcePool}; the built-in
+     * {@link #DEFAULT} query has no catalog, so none is applied.
+     */
+    private EntityResolver getEntityResolver() {
+        return catalog != null ? catalog.getResourcePool().getEntityResolver() : null;
     }
 }

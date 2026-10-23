@@ -78,10 +78,7 @@ import org.geoserver.platform.GeoServerEnvironment;
 import org.geoserver.platform.GeoServerExtensions;
 import org.geoserver.platform.Operation;
 import org.geoserver.security.AccessLimits;
-import org.geoserver.security.CoverageAccessLimits;
 import org.geoserver.security.DataAccessLimits;
-import org.geoserver.security.WMSAccessLimits;
-import org.geoserver.security.WrapperPolicy;
 import org.geoserver.security.decorators.SecuredLayerInfo;
 import org.geoserver.threadlocals.ThreadLocalsTransfer;
 import org.geoserver.util.HTTPWarningAppender;
@@ -102,7 +99,6 @@ import org.geotools.api.referencing.NoSuchAuthorityCodeException;
 import org.geotools.api.referencing.crs.CoordinateReferenceSystem;
 import org.geotools.api.referencing.operation.MathTransform;
 import org.geotools.factory.CommonFactoryFinder;
-import org.geotools.filter.visitor.ExtractBoundsFilterVisitor;
 import org.geotools.geometry.GeneralBounds;
 import org.geotools.geometry.jts.JTS;
 import org.geotools.geometry.jts.ReferencedEnvelope;
@@ -186,7 +182,7 @@ public class GWC implements DisposableBean, InitializingBean, ApplicationContext
     /** @see #getResponseEncoder(MimeType, RenderedImageMap) */
     private Map<String, Response> cachedTileEncoders = new HashMap<>();
 
-    private final TileLayerDispatcher tld;
+    final TileLayerDispatcher tld;
 
     private final StorageBroker storageBroker;
 
@@ -232,6 +228,8 @@ public class GWC implements DisposableBean, InitializingBean, ApplicationContext
 
     private ExecutorService metaTilingExecutor;
 
+    private final CoalescedRequestSplitter coalescedRequestSplitter;
+
     /**
      * Constructor for the GWC mediator
      *
@@ -247,6 +245,7 @@ public class GWC implements DisposableBean, InitializingBean, ApplicationContext
      * @param jdbcConfigurationStorage GeoServer integrator for GeoWebCache DiskQuota {@link JDBCConfiguration}
      * @param blobStoreAggregator GeoWebCache BlobStore Aggregator
      * @param gwcSynchEnv GeoServer integrator for GeoWebCache environment synchronization
+     * @param coalescedRequestSplitter splits and assembles multi-layer coalesced tile requests
      */
     public GWC(
             final GWCConfigPersister gwcConfigPersister,
@@ -261,7 +260,8 @@ public class GWC implements DisposableBean, InitializingBean, ApplicationContext
             final DefaultStorageFinder storageFinder,
             final JDBCConfigurationStorage jdbcConfigurationStorage,
             final BlobStoreAggregator blobStoreAggregator,
-            final GWCSynchEnv gwcSynchEnv) {
+            final GWCSynchEnv gwcSynchEnv,
+            final CoalescedRequestSplitter coalescedRequestSplitter) {
 
         this.gwcConfigPersister = gwcConfigPersister;
         this.tld = tld;
@@ -284,6 +284,7 @@ public class GWC implements DisposableBean, InitializingBean, ApplicationContext
         this.jdbcConfigurationStorage = jdbcConfigurationStorage;
         this.blobStoreAggregator = blobStoreAggregator;
         this.gwcSynchEnv = gwcSynchEnv;
+        this.coalescedRequestSplitter = coalescedRequestSplitter;
 
         this.metaTilingExecutor = buildMetaTilingExecutor(getConfig().getMetaTilingThreads());
     }
@@ -725,6 +726,16 @@ public class GWC implements DisposableBean, InitializingBean, ApplicationContext
     }
 
     /**
+     * Whether {@code request}'s {@code LAYERS} KVP names more than one layer, the single condition both
+     * {@link #dispatch} and {@code CachingWebMapService} use to decide whether a request is a coalesced multi-layer
+     * one.
+     */
+    public static boolean isCoalescedLayers(GetMapRequest request) {
+        String layerName = request.getRawKvp().get("LAYERS");
+        return layerName != null && layerName.indexOf(',') != -1;
+    }
+
+    /**
      * Tries to dispatch a tile request represented by a GeoServer WMS {@link GetMapRequest} through GeoWebCache, and
      * returns the {@link ConveyorTile} if succeeded or {@code null} if it wasn't possible.
      *
@@ -746,9 +757,12 @@ public class GWC implements DisposableBean, InitializingBean, ApplicationContext
          * use request.getLayers() because in the event that a layerGroup was requested, the request
          * parser turned it into a list of actual Layers
          */
-        if (layerName.indexOf(',') != -1) {
-            requestMistmatchTarget.append("more than one layer requested");
-            return null;
+        if (isCoalescedLayers(request)) {
+            if (!getConfig().isMultiLayerCachingEnabled()) {
+                requestMistmatchTarget.append("more than one layer requested");
+                return null;
+            }
+            return coalescedRequestSplitter.dispatchCoalesced(this, request, requestMistmatchTarget);
         }
 
         // GEOS-9431 acquire prefixed name if not prefixed already
@@ -771,23 +785,8 @@ public class GWC implements DisposableBean, InitializingBean, ApplicationContext
         }
 
         if (getConfig().isSecurityEnabled()) {
-            String bboxstr = request.getRawKvp().get("BBOX");
-            String srs = request.getRawKvp().get("SRS");
-            ReferencedEnvelope bbox = null;
             try {
-                bbox = (ReferencedEnvelope) new BBoxKvpParser().parse(bboxstr);
-            } catch (Exception e) {
-                throw new RuntimeException("Invalid bbox for layer '" + layerName + "': " + bboxstr);
-            }
-            if (srs != null) {
-                try {
-                    bbox = new ReferencedEnvelope(bbox, CRS.decode(srs));
-                } catch (Exception e) {
-                    throw new RuntimeException("Can't decode SRS for layer '" + layerName + "': " + srs);
-                }
-            }
-            try {
-                verifyAccessLayer(layerName, bbox);
+                verifyAccessLayer(layerName, parseRequestBbox(request, layerName));
             } catch (ServiceException | SecurityException e) {
                 return null;
             }
@@ -809,6 +808,38 @@ public class GWC implements DisposableBean, InitializingBean, ApplicationContext
         }
         return tileResp;
     }
+
+    /**
+     * Parses the request-wide {@code BBOX}/{@code SRS} KVP into a {@link ReferencedEnvelope} for
+     * {@link #verifyAccessLayer}.
+     */
+    ReferencedEnvelope parseRequestBbox(GetMapRequest request, String layerNameForErrors) {
+        String bboxstr = request.getRawKvp().get("BBOX");
+        String srs = request.getRawKvp().get("SRS");
+        ReferencedEnvelope bbox;
+        try {
+            bbox = (ReferencedEnvelope) new BBoxKvpParser().parse(bboxstr);
+        } catch (Exception e) {
+            throw new RuntimeException("Invalid bbox for layer '" + layerNameForErrors + "': " + bboxstr);
+        }
+        if (srs != null) {
+            try {
+                bbox = new ReferencedEnvelope(bbox, CRS.decode(srs));
+            } catch (Exception e) {
+                throw new RuntimeException("Can't decode SRS for layer '" + layerNameForErrors + "': " + srs);
+            }
+        }
+        return bbox;
+    }
+
+    /**
+     * Internal signaling channel from {@link CoalescedRequestSplitter#dispatchCoalesced} to
+     * {@link org.geoserver.gwc.wms.CachingWebMapService}: the assembled {@code ConveyorTile}'s
+     * {@code geowebcache-cache-result} value, computed per member ({@code HIT}, {@code MISS}, or {@code PARTIAL n/N}),
+     * since {@link Conveyor.CacheResult} has no such value. Piggybacks on the unused filtering-parameters map of a tile
+     * that is never itself persisted or looked up.
+     */
+    public static final String COALESCED_CACHE_RESULT_KEY = "gwc.coalesced.cacheResult";
 
     private String getPrefixedName(String layerName) {
         PublishedInfo info = catalog.getLayerByName(layerName);
@@ -2146,64 +2177,19 @@ public class GWC implements DisposableBean, InitializingBean, ApplicationContext
         if (layerInfos == null || layerInfos.isEmpty()) {
             throw new ServiceException("Could not find layer " + layerName, "LayerNotDefined");
         }
-        if (boundingBox != null) {
-            for (LayerInfo layerInfo : layerInfos) {
-                // Unwrap potential proxy instances, so the instanceof SecuredLayerInfo check works.
-                if (layerInfo instanceof Proxy) {
-                    layerInfo = ProxyUtils.unwrap(
-                            layerInfo, Proxy.getInvocationHandler(layerInfo).getClass());
-                }
-
-                if (layerInfo instanceof SecuredLayerInfo securedLayerInfo) {
-                    // test layer bbox limits
-                    WrapperPolicy policy = securedLayerInfo.getWrapperPolicy();
-                    AccessLimits limits = policy.getLimits();
-
-                    if (limits instanceof DataAccessLimits accessLimits1) {
-                        // ensure we are all using the same CRS
-                        CoordinateReferenceSystem dataCrs =
-                                layerInfo.getResource().getCRS();
-                        if (boundingBox.getCoordinateReferenceSystem() != null
-                                && !CRS.equalsIgnoreMetadata(dataCrs, boundingBox.getCoordinateReferenceSystem())) {
-                            try {
-                                boundingBox = boundingBox.transform(dataCrs, true);
-                            } catch (Exception e) {
-                                // bboxes not compatible? deny access for all certainty.
-                                boundingBox = null;
-                            }
-                        }
-                        Envelope limitBox = new ReferencedEnvelope(ReferencedEnvelope.EVERYTHING, dataCrs);
-
-                        Filter filter = accessLimits1.getReadFilter();
-                        if (filter != null) {
-                            // extract filter envelope from filter
-                            Envelope box = (Envelope) filter.accept(ExtractBoundsFilterVisitor.BOUNDS_VISITOR, null);
-                            if (box != null) {
-                                limitBox = new ReferencedEnvelope(limitBox.intersection(box), dataCrs);
-                            }
-                        }
-                        if (limits instanceof CoverageAccessLimits accessLimits) {
-                            if (accessLimits.getRasterFilter() != null) {
-                                Envelope box = accessLimits.getRasterFilter().getEnvelopeInternal();
-                                if (box != null) {
-                                    limitBox = new ReferencedEnvelope(limitBox.intersection(box), dataCrs);
-                                }
-                            }
-                        }
-                        if (limits instanceof WMSAccessLimits accessLimits) {
-                            if (accessLimits.getRasterFilter() != null) {
-                                Envelope box = accessLimits.getRasterFilter().getEnvelopeInternal();
-                                if (box != null) {
-                                    limitBox = new ReferencedEnvelope(limitBox.intersection(box), dataCrs);
-                                }
-                            }
-                        }
-
-                        if (!limitBox.covers(ReferencedEnvelope.EVERYTHING)
-                                && (boundingBox == null || !limitBox.contains(boundingBox))) {
-                            throw new SecurityException("Access denied to bounding box on layer " + layerName);
-                        }
-                    }
+        // HIDE+EXCLUDE layers are already gone: secured catalog returns null above.
+        // For non-HIDE modes (e.g. CHALLENGE), still deny if readFilter is EXCLUDE; any other
+        // filter is a spatial/attribute restriction that the rendering pipeline handles by producing
+        // empty tiles - no need for a bbox check here.
+        for (LayerInfo layerInfo : layerInfos) {
+            if (layerInfo instanceof Proxy) {
+                layerInfo = ProxyUtils.unwrap(
+                        layerInfo, Proxy.getInvocationHandler(layerInfo).getClass());
+            }
+            if (layerInfo instanceof SecuredLayerInfo securedLayerInfo) {
+                AccessLimits limits = securedLayerInfo.getWrapperPolicy().getLimits();
+                if (limits instanceof DataAccessLimits dal && Filter.EXCLUDE.equals(dal.getReadFilter())) {
+                    throw new SecurityException("Access denied to layer " + layerName);
                 }
             }
         }

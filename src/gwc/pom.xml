@@ -10,12 +10,12 @@
   <parent>
     <groupId>org.geoserver</groupId>
     <artifactId>geoserver</artifactId>
-    <version>2.28.5</version>
+    <version>2.28.6</version>
   </parent>
 
   <groupId>org.geoserver</groupId>
   <artifactId>gs-gwc</artifactId>
-  <version>2.28.5-georchestra</version>
+  <version>2.28.6-georchestra</version>
   <packaging>jar</packaging>
   <name>GeoWebCache (GWC) Module</name>
 

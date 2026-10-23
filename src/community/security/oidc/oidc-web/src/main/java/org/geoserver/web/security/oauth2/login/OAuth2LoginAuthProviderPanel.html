@@ -50,6 +50,24 @@
                      </label>
                      <a href="#" wicket:id="enableRedirectAuthenticationEntryPointHelp" class="help-link"></a>
                   </li>
+                  <li class="choiceItem">
+                     <input id="enableResourceServerMode" wicket:id="enableResourceServerMode" type="checkbox" />
+                     <label for="enableResourceServerMode" class="checkboxLabel">
+                        <span>
+                           <wicket:message key="enableResourceServerMode"></wicket:message>
+                        </span>
+                     </label>
+                     <a href="#" wicket:id="enableResourceServerModeHelp" class="help-link"></a>
+                  </li>
+                  <li class="choiceItem">
+                     <input id="allowAdminLogin" wicket:id="allowAdminLogin" type="checkbox" />
+                     <label for="allowAdminLogin">
+                        <span>
+                           <wicket:message key="allowAdminLogin"></wicket:message>
+                        </span>
+                     </label>
+                     <a href="#" wicket:id="allowAdminLoginHelp" class="help-link"></a>
+                  </li>
                </ul>
             </fieldset>
          </li>
@@ -147,6 +165,16 @@
                            </label>
                            <input wicket:id="scopes" type="text" class="field text" />
                            <a href="#" wicket:id="scopesHelp" class="help-link"></a>
+                        </li>
+
+                        <li wicket:id="displayOnMicrosoft">
+                           <label for="tenantId">
+                              <span>
+                                 <wicket:message key="tenantId"></wicket:message>
+                              </span>
+                           </label>
+                           <input id="tenantId" wicket:id="tenantId" type="text" class="field text" />
+                           <a href="#" wicket:id="tenantIdHelp" class="help-link"></a>
                         </li>
                      </ul>
                   </fieldset>
